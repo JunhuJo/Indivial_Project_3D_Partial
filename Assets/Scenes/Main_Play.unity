@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18137504, g: 0.22300445, b: 0.2842486, a: 1}
+  m_IndirectSpecularColor: {r: 0.18137527, g: 0.22300462, b: 0.28424907, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2408,14 +2408,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2120769041}
-  m_LocalRotation: {x: -0.1400575, y: 0.7131895, z: 0.18827368, w: 0.6605284}
+  m_LocalRotation: {x: -0.47802287, y: 0.4946607, z: 0.5471719, w: 0.4768731}
   m_LocalPosition: {x: 0.011600035, y: 0.5497004, z: 0.13309988}
   m_LocalScale: {x: 1.0000001, y: 1, z: 0.99999964}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 829421978}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -26.973, y: 93.635, z: 3.148}
+  m_LocalEulerAnglesHint: {x: -85.743, y: -43.761, z: 138.747}
 --- !u!1001 &2136057741
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5125,6 +5125,7 @@ MonoBehaviour:
   _atkKey: 97
   bullet_Prefab: {fileID: 1211173764053126729, guid: 11a0d6cca36e27f4fa88a08daa45e48f, type: 3}
   Tranform_AtkSpawnPos: {fileID: 2120769042}
+  bulletSpeed: 10
 --- !u!195 &5866666021823711988
 NavMeshAgent:
   m_ObjectHideFlags: 0

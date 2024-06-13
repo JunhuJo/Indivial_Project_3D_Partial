@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private TextMesh TextMesh_HealthBar;
     [SerializeField] private TextMesh Nick_Name;
     [SerializeField] private Transform Transform_Player;
-    
+
     [Header("Movement")]
     [SerializeField] private float _ratationSpeed = 100.0f;
     [SerializeField] private float _moveSpeed = 5.0f;
@@ -23,6 +23,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private KeyCode _atkKey = KeyCode.A;
     [SerializeField] private GameObject bullet_Prefab;
     [SerializeField] private Transform Tranform_AtkSpawnPos;
+    
+
 
     //[SerializeField] private int _health = 4;
 
@@ -44,10 +46,10 @@ public class PlayerMove : MonoBehaviour
             }
 
             GameObject pointer_Effect = Instantiate(EffectPrefab, hit.point, Quaternion.identity);
-            Destroy(pointer_Effect,0.7f);
+            Destroy(pointer_Effect, 0.7f);
         }
 
-        
+
         // 이동 중인지 확인하고 애니메이션 상태를 업뎃
         if (NavAgent_Player.remainingDistance > NavAgent_Player.stoppingDistance)
         {
@@ -68,16 +70,17 @@ public class PlayerMove : MonoBehaviour
 
     }
 
+
     private void CommandAtk()
     {
-        
+
         GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, Tranform_AtkSpawnPos.transform.position, Tranform_AtkSpawnPos.transform.rotation);
         Destroy(atkObjectForSpawn, 2.0f);
         //Animator_Player.SetBool("isAttack", false);
-    }
 
-    //private void SetHealthBarOnUpdate(int health)
-    //{Tranform_AtkSpawnPos.transform.rotation
-    //    TextMesh_HealthBar.text = new string('-', health);
-    //}
+        //private void SetHealthBarOnUpdate(int health)
+        //{Tranform_AtkSpawnPos.transform.rotation
+        //    TextMesh_HealthBar.text = new string('-', health);
+        //}
+    }
 }
