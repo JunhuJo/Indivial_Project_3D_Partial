@@ -23,10 +23,20 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private KeyCode _atkKey = KeyCode.A;
     [SerializeField] private GameObject bullet_Prefab;
     [SerializeField] private Transform Tranform_AtkSpawnPos;
-    
+
+    [Header("ShootSound")]
+    [SerializeField] private AudioSource AudioSource;
+    [SerializeField] private AudioClip shootsound;
 
 
     //[SerializeField] private int _health = 4;
+
+    private void Start()
+    {
+        shootsound = AudioSource.clip;
+    }
+
+
 
     private void Update()
     {
@@ -62,25 +72,53 @@ public class PlayerMove : MonoBehaviour
 
 
         //АјАн
-        if (Input.GetKeyDown(_atkKey))
+        if (Input.GetMouseButtonDown(1))
         {
-            Animator_Player.SetBool("isAttack", true);
-            CommandAtk();
+            StartCoroutine(CommandAtk());
         }
 
     }
 
-
-    private void CommandAtk()
+    IEnumerator CommandAtk()
     {
+        if (Animator_Player.GetBool("isMove"))
+        {
+            Animator_Player.SetBool("isAttack", true);
+        }
+        else 
+        {
+            Animator_Player.SetBool("isStopAttack", true);
+        }
 
+        yield return new WaitForSeconds(0.3f);
+        AudioSource.PlayOneShot(shootsound);
         GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, Tranform_AtkSpawnPos.transform.position, Tranform_AtkSpawnPos.transform.rotation);
         Destroy(atkObjectForSpawn, 2.0f);
-        //Animator_Player.SetBool("isAttack", false);
+        yield return new WaitForSeconds(0.5f);
 
-        //private void SetHealthBarOnUpdate(int health)
-        //{Tranform_AtkSpawnPos.transform.rotation
-        //    TextMesh_HealthBar.text = new string('-', health);
-        //}
+        if (Animator_Player.GetBool("isAttack") && !Animator_Player.GetBool("isStopAttack"))
+        {
+            Animator_Player.SetBool("isAttack", false);
+        }
+        else 
+        {
+            Animator_Player.SetBool("isStopAttack", false);
+        }
     }
+
+
+    //private void CommandAtk()
+    //{
+    //    Animator_Player.SetBool("isAttack", true);
+    //    GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, Tranform_AtkSpawnPos.transform.position, Tranform_AtkSpawnPos.transform.rotation);
+    //    ShoutSound.PlayOneShot(Shoot_Sound_Clip);
+    //    Destroy(atkObjectForSpawn, 2.0f);
+    //    if()
+    //    //Animator_Player.SetBool("isAttack", false);
+    //
+    //    //private void SetHealthBarOnUpdate(int health)
+    //    //{Tranform_AtkSpawnPos.transform.rotation
+    //    //    TextMesh_HealthBar.text = new string('-', health);
+    //    //}
+    //}
 }
