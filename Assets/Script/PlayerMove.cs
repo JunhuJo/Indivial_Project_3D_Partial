@@ -23,6 +23,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private KeyCode _atkKey = KeyCode.A;
     [SerializeField] private GameObject bullet_Prefab;
     [SerializeField] private Transform Tranform_AtkSpawnPos;
+    [SerializeField] private float shootpoint = 5.0f;
+    
 
     [Header("ShootSound")]
     [SerializeField] private AudioSource AudioSource;
@@ -34,6 +36,7 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         shootsound = AudioSource.clip;
+        
     }
 
 
@@ -95,7 +98,9 @@ public class PlayerMove : MonoBehaviour
         {
             yield return new WaitForSeconds(0.3f);
             AudioSource.PlayOneShot(shootsound);
+            
             GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, Tranform_AtkSpawnPos.transform.position, Tranform_AtkSpawnPos.transform.rotation);
+            //GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, transform.position, transform.rotation);
             Destroy(atkObjectForSpawn, 2.0f);
             yield return new WaitForSeconds(0.5f);
         }
