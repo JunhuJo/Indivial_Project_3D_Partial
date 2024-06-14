@@ -85,25 +85,33 @@ public class PlayerMove : MonoBehaviour
         {
             Animator_Player.SetBool("isAttack", true);
         }
-        else 
+        else if (!Animator_Player.GetBool("isMove"))
         {
             Animator_Player.SetBool("isStopAttack", true);
         }
 
-        yield return new WaitForSeconds(0.3f);
-        AudioSource.PlayOneShot(shootsound);
-        GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, Tranform_AtkSpawnPos.transform.position, Tranform_AtkSpawnPos.transform.rotation);
-        Destroy(atkObjectForSpawn, 2.0f);
-        yield return new WaitForSeconds(0.5f);
+
+        if (Animator_Player.GetBool("isAttack") || Animator_Player.GetBool("isStopAttack"))
+        {
+            yield return new WaitForSeconds(0.3f);
+            AudioSource.PlayOneShot(shootsound);
+            GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, Tranform_AtkSpawnPos.transform.position, Tranform_AtkSpawnPos.transform.rotation);
+            Destroy(atkObjectForSpawn, 2.0f);
+            yield return new WaitForSeconds(0.5f);
+        }
+
 
         if (Animator_Player.GetBool("isAttack") && !Animator_Player.GetBool("isStopAttack"))
         {
             Animator_Player.SetBool("isAttack", false);
         }
-        else 
+        else
         {
             Animator_Player.SetBool("isStopAttack", false);
         }
+
+
+        
     }
 
 
