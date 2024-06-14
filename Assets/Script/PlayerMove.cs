@@ -24,7 +24,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private GameObject bullet_Prefab;
     [SerializeField] private Transform Tranform_AtkSpawnPos;
     [SerializeField] private float shootpoint = 5.0f;
-    
+    [SerializeField] private GameObject shoot_Effect;
+    [SerializeField] private Transform shoot_Effect_Pos;
+
 
     [Header("ShootSound")]
     [SerializeField] private AudioSource AudioSource;
@@ -36,7 +38,6 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         shootsound = AudioSource.clip;
-        
     }
 
 
@@ -96,13 +97,17 @@ public class PlayerMove : MonoBehaviour
 
         if (Animator_Player.GetBool("isAttack") || Animator_Player.GetBool("isStopAttack"))
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
             AudioSource.PlayOneShot(shootsound);
-            
+
+            GameObject shootEffect = Instantiate(shoot_Effect, shoot_Effect_Pos.transform.position, shoot_Effect_Pos.transform.rotation);
+            Destroy(shootEffect,0.5f);
+
+            yield return new WaitForSeconds(0.1f);
             GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, Tranform_AtkSpawnPos.transform.position, Tranform_AtkSpawnPos.transform.rotation);
             //GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, transform.position, transform.rotation);
             Destroy(atkObjectForSpawn, 2.0f);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.0f);
         }
 
 
