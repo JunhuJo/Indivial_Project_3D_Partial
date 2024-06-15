@@ -50,7 +50,7 @@ public class PlayerMove : MonoBehaviour
     private void PlayerMoveOnUpdate()
     {
         //이동
-        if (Input.GetMouseButtonDown(0)) // 좌클릭 시
+        if (Input.GetMouseButtonDown(0))// 좌클릭 시
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 100))
@@ -63,6 +63,7 @@ public class PlayerMove : MonoBehaviour
             Destroy(pointer_Effect, 0.7f);
         }
 
+       
 
         // 이동 중인지 확인하고 애니메이션 상태를 업뎃
         if (NavAgent_Player.remainingDistance > NavAgent_Player.stoppingDistance)
@@ -76,7 +77,7 @@ public class PlayerMove : MonoBehaviour
 
 
         //공격
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.D))
         {
             StartCoroutine(CommandAtk());
         }
@@ -119,9 +120,6 @@ public class PlayerMove : MonoBehaviour
         {
             Animator_Player.SetBool("isStopAttack", false);
         }
-
-
-        
     }
 
 
