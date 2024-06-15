@@ -57,6 +57,10 @@ public class PlayerMove : MonoBehaviour
             {
                 Debug.DrawLine(ray.origin, hit.point);
                 NavAgent_Player.SetDestination(hit.point); // 클릭한 위치로 이동
+                if (Input.GetKeyDown(KeyCode.E))
+                { 
+                    hit.point = gameObject.transform.position;
+                }
             }
 
             GameObject pointer_Effect = Instantiate(EffectPrefab, hit.point, Quaternion.identity);
