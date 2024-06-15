@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,6 +25,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float shootpoint = 5.0f;
     [SerializeField] private GameObject shoot_Effect;
     [SerializeField] private Transform shoot_Effect_Pos;
+    private bool baseAttack = false;    
 
 
     [Header("ShootSound")]
@@ -66,75 +66,51 @@ public class PlayerMove : MonoBehaviour
        
 
         // 이동 중인지 확인하고 애니메이션 상태를 업뎃
-        if (NavAgent_Player.remainingDistance > NavAgent_Player.stoppingDistance)
+        if (NavAgent_Player.remainingDistance > NavAgent_Player.stoppingDistance && gameObject.transform.position != Vector3.zero)
         {
-            Animator_Player.SetBool("isMove", true);
+            Animator_Player.SetBool("isRun", true);
         }
         else
         {
-            Animator_Player.SetBool("isMove", false);
+            Animator_Player.SetBool("isRun", false);
         }
 
 
-        //공격
+        //기본 공격
         if (Input.GetKeyDown(KeyCode.D))
         {
-            StartCoroutine(CommandAtk());
+            if (!baseAttack)
+            {
+                StartCoroutine(CommandAtk());
+            }
         }
 
     }
 
     IEnumerator CommandAtk()
     {
-        if (Animator_Player.GetBool("isMove"))
+        baseAttack = true;
+        if (Animator_Player.GetBool("isRun"))
+        {
+            Animator_Player.SetBool("isRunAttack", true);
+        }
+        else if(!Animator_Player.GetBool("isRun"))
         {
             Animator_Player.SetBool("isAttack", true);
         }
-        else if (!Animator_Player.GetBool("isMove"))
-        {
-            Animator_Player.SetBool("isStopAttack", true);
-        }
+       
+        yield return new WaitForSeconds(0.5f);
+        GameObject shootEffect = Instantiate(shoot_Effect, shoot_Effect_Pos.transform.position, shoot_Effect_Pos.transform.rotation);
+        Destroy(shootEffect, 0.5f);
+        AudioSource.PlayOneShot(shootsound);
 
+        yield return new WaitForSeconds(0.1f);
+        GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, Tranform_AtkSpawnPos.transform.position, Tranform_AtkSpawnPos.transform.rotation);
+        Destroy(atkObjectForSpawn, 2.0f);
+        yield return new WaitForSeconds(0.5f);
 
-        if (Animator_Player.GetBool("isAttack") || Animator_Player.GetBool("isStopAttack"))
-        {
-            yield return new WaitForSeconds(0.5f);
-            AudioSource.PlayOneShot(shootsound);
-
-            GameObject shootEffect = Instantiate(shoot_Effect, shoot_Effect_Pos.transform.position, shoot_Effect_Pos.transform.rotation);
-            Destroy(shootEffect,0.5f);
-
-            yield return new WaitForSeconds(0.1f);
-            GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, Tranform_AtkSpawnPos.transform.position, Tranform_AtkSpawnPos.transform.rotation);
-            //GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, transform.position, transform.rotation);
-            Destroy(atkObjectForSpawn, 2.0f);
-            yield return new WaitForSeconds(1.0f);
-        }
-
-
-        if (Animator_Player.GetBool("isAttack") && !Animator_Player.GetBool("isStopAttack"))
-        {
-            Animator_Player.SetBool("isAttack", false);
-        }
-        else
-        {
-            Animator_Player.SetBool("isStopAttack", false);
-        }
+        Animator_Player.SetBool("isRunAttack", false);
+        Animator_Player.SetBool("isAttack", false);
+        baseAttack = false;
     }
-
-
-    //private void CommandAtk()
-    //{
-    //    Animator_Player.SetBool("isAttack", true);
-    //    GameObject atkObjectForSpawn = Instantiate(bullet_Prefab, Tranform_AtkSpawnPos.transform.position, Tranform_AtkSpawnPos.transform.rotation);
-    //    ShoutSound.PlayOneShot(Shoot_Sound_Clip);
-    //    Destroy(atkObjectForSpawn, 2.0f);
-    //    if()
-    //    //Animator_Player.SetBool("isAttack", false);
-    //
-    //    //private void SetHealthBarOnUpdate(int health)
-    //    //{Tranform_AtkSpawnPos.transform.rotation
-    //    //    TextMesh_HealthBar.text = new string('-', health);
-    //    //}
-    //}
 }
