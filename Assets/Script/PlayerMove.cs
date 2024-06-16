@@ -81,7 +81,7 @@ public class PlayerMove : MonoBehaviour
 
 
         //기본 공격
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetMouseButtonDown(1))
         {
             if (!baseAttack)
             {
