@@ -34,27 +34,55 @@ public class SkillManager : MonoBehaviour
 
     private void Update()
     {
-        //스킬 E(검스킬)
+        //스킬 B(라이플스킬)
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            StartCoroutine(OnSitShoot());
+        }
+
+        //스킬 C(소드스킬)
         if (Input.GetKeyDown(KeyCode.E))
         {
             StartCoroutine(OnSwordAttack());
         }
     }
 
+    IEnumerator OnSitShoot()
+    {
+        //yield return null;
+        animator.SetBool("isSitShootA", true);
+        playerMove.enabled = false;
+        yield return new WaitForSeconds(0.8f);
+        animator.SetBool("isSitShootA", false);
+        animator.SetBool("isSitShootB", true);
+        yield return new WaitForSeconds(0.8f);
+        animator.SetBool("isSitShootB", false);
+        animator.SetBool("isSitShootC", true);
+        yield return new WaitForSeconds(0.8f);
+        animator.SetBool("isSitShootC", false);
+        yield return new WaitForSeconds(0.8f);
+        playerMove.enabled = true;
+    }
+
+
     IEnumerator OnSwordAttack()
     {
+        playerMove.enabled = false;
         animator.SetTrigger("isSwordAttack");
         Rifle.gameObject.SetActive(false);
         Katana.gameObject.SetActive(true);
         Katana_Sub.gameObject.SetActive(false);
+
         yield return new WaitForSeconds(1.0f);
+
         Sword_Attack_Effect.gameObject.SetActive(true);
         Sword_Attack_Sound.PlayOneShot(Sword_Attack_SoundClip);
-        playerMove.enabled = false;
         animator.SetBool("isRun", false);
+
         yield return new WaitForSeconds(0.5f);
         Katana.gameObject.SetActive(false);
         Sword_Attack_Effect.gameObject.SetActive(false);
+
         yield return new WaitForSeconds(0.10f);
         Rifle.gameObject.SetActive(true);
         Katana_Sub.gameObject.SetActive(true);

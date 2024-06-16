@@ -57,7 +57,7 @@ public class PlayerMove : MonoBehaviour
             {
                 Debug.DrawLine(ray.origin, hit.point);
                 NavAgent_Player.SetDestination(hit.point); // 클릭한 위치로 이동
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.E)|| Input.GetKeyDown(KeyCode.W))
                 { 
                     hit.point = gameObject.transform.position;
                 }
