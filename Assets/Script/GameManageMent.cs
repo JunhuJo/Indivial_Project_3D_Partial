@@ -20,6 +20,14 @@ public class GameManageMent : MonoBehaviour
         virtual_Camera.Follow = Player.transform;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("메뉴창 오픈하기");
+        }
+    }
+
     private void ChangeCursor(Texture2D cursorTexture, Vector2 hotSpot)
     {
         Cursor.SetCursor(cursorTexture, hotSpot, CursorMode.Auto);

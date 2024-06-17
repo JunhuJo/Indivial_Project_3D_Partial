@@ -30,7 +30,7 @@ public class PlayerMove : MonoBehaviour
 
     [Header("ShootSound")]
     [SerializeField] private AudioSource AudioSource;
-    [SerializeField] private AudioClip shootsound;
+    private AudioClip shootsound;
 
 
     //[SerializeField] private int _health = 4;
@@ -39,8 +39,6 @@ public class PlayerMove : MonoBehaviour
     {
         shootsound = AudioSource.clip;
     }
-
-
 
     private void Update()
     {
