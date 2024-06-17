@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11277,15 +11277,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1774976883703929615}
-  Darkness_Bullet: {fileID: 0}
-  SkillB: {fileID: 0}
-  Sword_Attack_Effect: {fileID: 7438627009237461595}
-  Sword_Attack_Sound: {fileID: 5097042203474871142}
-  Sword_Attack_Pos: {fileID: 6562717853462442716}
+  darkness_Shoot: {fileID: 0}
+  sniping_shoot_Bullet: {fileID: 0}
+  sniping_shoot_Effect: {fileID: 0}
+  sword_Attack_Effect: {fileID: 0}
+  sword_Attack_Sound: {fileID: 0}
   Rifle: {fileID: 0}
   Katana: {fileID: 5097042203474871143}
   Katana_Sub: {fileID: 3244300331025924509}
   Battle_Mode_Change_Effect: {fileID: 1882958612}
+  shoot_Sound: {fileID: 0}
+  changer: {fileID: 0}
+  attack_Pos: {fileID: 0}
+  effect_Pos: {fileID: 0}
 --- !u!195 &1774976883703929609
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -11335,7 +11339,6 @@ MonoBehaviour:
   shoot_Effect: {fileID: 7274512214273424878, guid: f171ea673fbcf634aa15533d2f123949, type: 3}
   shoot_Effect_Pos: {fileID: 5317460040233488367}
   AudioSource: {fileID: 0}
-  shootsound: {fileID: 0}
 --- !u!95 &1774976883703929615
 Animator:
   serializedVersion: 5
@@ -11346,7 +11349,7 @@ Animator:
   m_GameObject: {fileID: 4974789195034680271}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 14df923b9101bb14abca861595b99a5f, type: 3}
-  m_Controller: {fileID: 9100000, guid: 54a83325115ce584ea067268c4a12301, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3e83c8244cc7b12488eed181569ec98f, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 1
   m_ApplyRootMotion: 0
@@ -12489,7 +12492,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &5104488557958156173
 GameObject:
   m_ObjectHideFlags: 0
@@ -48312,7 +48315,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &7661670541840791476
 GameObject:
   m_ObjectHideFlags: 0
