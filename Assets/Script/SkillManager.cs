@@ -20,6 +20,9 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private GameObject Katana;
     [SerializeField] private GameObject Katana_Sub;
 
+    [Header("Skill_D")]
+    [SerializeField] private ParticleSystem Battle_Mode_Change_Effect;
+
 
     private PlayerMove playerMove;
 
@@ -45,9 +48,15 @@ public class SkillManager : MonoBehaviour
         {
             StartCoroutine(OnSwordAttack());
         }
+
+        //스킬 D(배틀모드 변환)
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            StartCoroutine(OnBattlModeChange());
+        }
     }
 
-    IEnumerator OnSitShoot()
+    IEnumerator OnSitShoot()//스킬 B
     {
         //yield return null;
         animator.SetBool("isSitShootA", true);
@@ -65,7 +74,7 @@ public class SkillManager : MonoBehaviour
     }
 
 
-    IEnumerator OnSwordAttack()
+    IEnumerator OnSwordAttack()//스킬 C
     {
         playerMove.enabled = false;
         animator.SetTrigger("isSwordAttack");
@@ -90,7 +99,12 @@ public class SkillManager : MonoBehaviour
         playerMove.enabled = true;
     }
 
-
+    IEnumerator OnBattlModeChange()//스킬 D
+    {
+        if(Battle_Mode_Change_Effect != null)
+        Battle_Mode_Change_Effect.Play();
+        yield return null;
+    }
 
 
 
