@@ -2,14 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PS_Engine_Sparks
   m_Shader: {fileID: 4800000, guid: c5fbc0cbc0ab471c9d7bc4b321f04cff, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _EMISSION
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -63,6 +65,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -93,4 +96,5 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MaskColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _Params: {r: 0.5, g: 4, b: 0.1, a: 0}
-    - _TintColor: {r: 4.5220585, g: 8.930021, b: 15.000005, a: 1}
+    - _TintColor: {r: 1.2356213, g: 0, b: 3.0228205, a: 1}
+  m_BuildTextureStacks: []

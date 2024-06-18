@@ -6,7 +6,9 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private Animator animator;
 
     [Header("Skill_Q")]
-    [SerializeField] private GameObject darkness_Shoot;
+    [SerializeField] private GameObject darkness_Shoot_Bullet;
+    [SerializeField] private GameObject darkness_Shoot_Effect;
+    private AudioClip darkness_SoundClip;
 
     [Header("Skill_W")]
     [SerializeField] private GameObject sniping_shoot_Bullet;
@@ -40,33 +42,53 @@ public class SkillManager : MonoBehaviour
 
     private void Update()
     {
-        //스킬 B(라이플스킬)
+        //스킬 Q(라이플스킬)
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            StartCoroutine(OnDarknessShoot());
+        }
+
+        //스킬 W(라이플스킬)
         if (Input.GetKeyDown(KeyCode.W))
         {
             StartCoroutine(OnSitShoot());
         }
 
-        //스킬 C(소드스킬)
+        //스킬 E(소드스킬)
         if (Input.GetKeyDown(KeyCode.E))
         {
             StartCoroutine(OnSwordAttack());
         }
 
-        //스킬 D(배틀모드 변환)
+        //스킬 R(배틀모드 변환)
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartCoroutine(OnBattlModeChange());
         }
     }
 
+    IEnumerator OnDarknessShoot()
+    {
+        animator.SetTrigger("isDarkness");
+        yield return new WaitForSeconds(0.8f);
+        GameObject darknessShootBulletEffect = Instantiate(darkness_Shoot_Effect, effect_Pos.transform.position, effect_Pos.transform.rotation);
+        Destroy(darknessShootBulletEffect, 0.5f);
+
+        GameObject darknessShootBullet = Instantiate(darkness_Shoot_Bullet, attack_Pos.transform.position, attack_Pos.transform.rotation);
+        Destroy(darknessShootBullet,2.0f);
+        yield return null;
+    }
+
+
     IEnumerator OnSitShoot()//스킬 W
     {
+        playerMove.enabled = false;
         changer.temp_SoundClip = shoot_Sound.clip;
         shoot_Sound.clip = changer.sniping_SoundClip_First;
         animator.SetBool("isSitShootA", true);
         shoot_Sound.PlayOneShot(shoot_Sound.clip);
-        playerMove.enabled = false;
         yield return new WaitForSeconds(0.8f);
+
         animator.SetBool("isSitShootA", false);
         animator.SetBool("isSitShootB", true);
         shoot_Sound.clip = changer.sniping_SoundClip_Scound;
@@ -76,11 +98,14 @@ public class SkillManager : MonoBehaviour
         GameObject sniping_Bullet = Instantiate(sniping_shoot_Bullet, attack_Pos.transform.position, attack_Pos.transform.rotation);
         Destroy(sniping_Bullet, 2.0f);
         yield return new WaitForSeconds(0.8f);
+
         animator.SetBool("isSitShootB", false);
         animator.SetBool("isSitShootC", true);
         yield return new WaitForSeconds(0.8f);
+
         animator.SetBool("isSitShootC", false);
         yield return new WaitForSeconds(0.8f);
+
         shoot_Sound.clip = changer.temp_SoundClip;
         playerMove.enabled = true;
     }
@@ -93,18 +118,17 @@ public class SkillManager : MonoBehaviour
         Rifle.gameObject.SetActive(false);
         Katana.gameObject.SetActive(true);
         Katana_Sub.gameObject.SetActive(false);
-
         yield return new WaitForSeconds(1.0f);
 
         sword_Attack_Effect.gameObject.SetActive(true);
         sword_Attack_Sound.PlayOneShot(sword_Attack_SoundClip);
         animator.SetBool("isRun", false);
-
         yield return new WaitForSeconds(0.5f);
+
         Katana.gameObject.SetActive(false);
         sword_Attack_Effect.gameObject.SetActive(false);
-
         yield return new WaitForSeconds(0.10f);
+
         Rifle.gameObject.SetActive(true);
         Katana_Sub.gameObject.SetActive(true);
         playerMove.enabled = true;
@@ -112,8 +136,17 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator OnBattlModeChange()//스킬 R
     {
-        if(Battle_Mode_Change_Effect != null)
+        Rifle.gameObject.SetActive(false);
+        Katana.gameObject.SetActive(true);
+        Katana.gameObject.transform.eulerAngles = new Vector3(0, 180, 180);
+        animator.SetTrigger("isBattleModeChange");
+        yield return new WaitForSeconds(0.8f);
         Battle_Mode_Change_Effect.Play();
+        yield return new WaitForSeconds(1.8f);
+
+        Rifle.gameObject.SetActive(true);
+        Katana.gameObject.transform.eulerAngles = new Vector3(0, 0, 180);
+        Katana_Sub.gameObject.SetActive(false);
         yield return null;
     }
 }
