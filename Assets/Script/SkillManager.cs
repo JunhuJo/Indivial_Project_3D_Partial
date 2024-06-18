@@ -19,12 +19,13 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private GameObject sword_Attack_Effect;
     [SerializeField] private AudioSource sword_Attack_Sound;
     private AudioClip sword_Attack_SoundClip;
-    [SerializeField] private GameObject Rifle;
-    [SerializeField] private GameObject Katana;
-    [SerializeField] private GameObject Katana_Sub;
+    [SerializeField] private GameObject rifle;
+    [SerializeField] private GameObject katana;
+    [SerializeField] private GameObject katana_Sub;
 
     [Header("Skill_R")]
-    [SerializeField] private ParticleSystem Battle_Mode_Change_Effect;
+    [SerializeField] private ParticleSystem battle_Mode_Change_Effect;
+    [SerializeField] private GameObject battle_Mode_Trigger;
 
     [Header("Common")]
     [SerializeField] private AudioSource shoot_Sound;
@@ -115,9 +116,9 @@ public class SkillManager : MonoBehaviour
     {
         playerMove.enabled = false;
         animator.SetTrigger("isSwordAttack");
-        Rifle.gameObject.SetActive(false);
-        Katana.gameObject.SetActive(true);
-        Katana_Sub.gameObject.SetActive(false);
+        rifle.gameObject.SetActive(false);
+        katana.gameObject.SetActive(true);
+        katana_Sub.gameObject.SetActive(false);
         yield return new WaitForSeconds(1.0f);
 
         sword_Attack_Effect.gameObject.SetActive(true);
@@ -125,28 +126,32 @@ public class SkillManager : MonoBehaviour
         animator.SetBool("isRun", false);
         yield return new WaitForSeconds(0.5f);
 
-        Katana.gameObject.SetActive(false);
+        katana.gameObject.SetActive(false);
         sword_Attack_Effect.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.10f);
 
-        Rifle.gameObject.SetActive(true);
-        Katana_Sub.gameObject.SetActive(true);
+        rifle.gameObject.SetActive(true);
+        katana_Sub.gameObject.SetActive(true);
         playerMove.enabled = true;
     }
 
     IEnumerator OnBattlModeChange()//½ºÅ³ R
     {
-        Rifle.gameObject.SetActive(false);
-        Katana.gameObject.SetActive(true);
-        Katana.gameObject.transform.eulerAngles = new Vector3(0, 180, 180);
+        playerMove.enabled = false;
+        rifle.gameObject.SetActive(false);
+        katana_Sub.gameObject.SetActive(false);
+        battle_Mode_Trigger.gameObject.SetActive(true);
+        
         animator.SetTrigger("isBattleModeChange");
-        yield return new WaitForSeconds(0.8f);
-        Battle_Mode_Change_Effect.Play();
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(1.2f);
 
-        Rifle.gameObject.SetActive(true);
-        Katana.gameObject.transform.eulerAngles = new Vector3(0, 0, 180);
-        Katana_Sub.gameObject.SetActive(false);
+        battle_Mode_Change_Effect.Play();
+        yield return new WaitForSeconds(4.0f);
+
+        battle_Mode_Trigger.gameObject.SetActive(false);
+        rifle.gameObject.SetActive(true);
+        katana_Sub.gameObject.SetActive(true);
         yield return null;
+        playerMove.enabled = true;
     }
 }
