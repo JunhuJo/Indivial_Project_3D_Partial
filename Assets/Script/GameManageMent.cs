@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManageMent : MonoBehaviour
 {
@@ -13,8 +14,61 @@ public class GameManageMent : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera virtual_Camera;
     [SerializeField] private GameObject Player_Prefap;
 
+
+    private static GameManageMent instance;
+
+    // 인스턴스에 접근하기 위한 프로퍼티
+    public static GameManageMent Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<GameManageMent>();
+
+                if (instance == null)
+                {
+                    GameObject singletonObject = new GameObject();
+                    instance = singletonObject.AddComponent<GameManageMent>();
+                    singletonObject.name = typeof(GameManageMent).ToString() + " (Singleton)";
+
+                    // 싱글톤 오브젝트가 다른 씬에서도 유지되도록 설정
+                    DontDestroyOnLoad(singletonObject);
+                }
+            }
+            return instance;
+        }
+    }
+
+    private void Awake()
+    {
+        // 이미 인스턴스가 존재하는 경우, 중복되는 오브젝트를 파괴
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    //public void IntroStart()
+    //{
+    //    SceneManager.LoadScene("Intro_Scene");
+    //}
+    //
+    //// 예시로 추가한 싱글톤의 기능 메서드
+    //public void DoSomething()
+    //{
+    //    Debug.Log("Singleton instance is working!");
+    //}
+
+
     private void Start()
     {
+        //IntroStart();
         ChangeCursor(customCursorTexture, hotSpot);
         GameObject Player = Instantiate(Player_Prefap);
         virtual_Camera.Follow = Player.transform;

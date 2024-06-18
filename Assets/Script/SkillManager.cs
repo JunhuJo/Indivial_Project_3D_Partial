@@ -24,7 +24,8 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private GameObject katana_Sub;
 
     [Header("Skill_R")]
-    [SerializeField] private ParticleSystem battle_Mode_Change_Effect;
+    [SerializeField] private ParticleSystem battle_Mode_Change_Effect_First;
+    [SerializeField] private ParticleSystem battle_Mode_Change_Effect_Scound;
     [SerializeField] private GameObject battle_Mode_Trigger;
     private Animator battle_Mode_Animator;
     [SerializeField] private RuntimeAnimatorController battle_Mode;
@@ -180,9 +181,10 @@ public class SkillManager : MonoBehaviour
         battle_Mode_Trigger.gameObject.SetActive(true);
         
         animator.SetTrigger("isBattleModeChange");
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(1.5f);
 
-        battle_Mode_Change_Effect.Play();
+        battle_Mode_Change_Effect_First.Play();
+        battle_Mode_Change_Effect_Scound.Play();
         yield return new WaitForSeconds(4.0f);
 
         battle_Mode_Trigger.gameObject.SetActive(false);
@@ -220,22 +222,32 @@ public class SkillManager : MonoBehaviour
         //    
         //}
         //
-        ////스킬 R(각성기)
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //   
-        //}
-    }
+        //스킬 R(각성기)
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            StartCoroutine(KatanaSkillR());
+        }
 
-    IEnumerator KatanaSkillA()
-    {
-        animator.SetTrigger("isAttack");
-        yield return new WaitForSeconds(0.6f);
-        battle_Mode_Weapon_Start.SetActive(false);
-        battle_Mode_Weapon_Attack.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
-        battle_Mode_Weapon_Start.SetActive(true);
-        battle_Mode_Weapon_Attack.SetActive(false);
-    }
+        IEnumerator KatanaSkillA()
+        {
+            animator.SetTrigger("isCountAttack");
+            yield return new WaitForSeconds(0.6f);
+            battle_Mode_Weapon_Start.SetActive(false);
+            battle_Mode_Weapon_Attack.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            battle_Mode_Weapon_Start.SetActive(true);
+            battle_Mode_Weapon_Attack.SetActive(false);
+        }
 
+        IEnumerator KatanaSkillR()
+        {
+            animator.SetTrigger("isAwake");
+            yield return new WaitForSeconds(1.2f);
+            battle_Mode_Weapon_Start.SetActive(false);
+            battle_Mode_Weapon_Attack.SetActive(true);
+            yield return new WaitForSeconds(2.0f);
+            battle_Mode_Weapon_Start.SetActive(true);
+            battle_Mode_Weapon_Attack.SetActive(false);
+        }
+    }
 }
