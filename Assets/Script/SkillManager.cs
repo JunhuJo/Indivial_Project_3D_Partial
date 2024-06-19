@@ -33,15 +33,33 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private GameObject battle_Mode_Weapon_Saya;
 
     [SerializeField] private GameObject battle_Mode_Weapon_Attack;
+
+
+    [Header("BattleMode_Katana_SKill_Q")]
+    //[SerializeField] private float moveSpeed = 5f;
+    //[SerializeField] private float dashSpeed = 20f;
+    //[SerializeField] private float dashTime = 0.2f;
+    //[SerializeField] private float dashCooldown = 1f;
     
+    private Vector3 moveDirection;
+    private bool isDashing = false;
+    private float dashTimeLeft;
+    private float lastDashTime = -100f;
+    private CharacterController controller;
+
 
     [Header("Common")]
+    
     [SerializeField] private AudioSource shoot_Sound;
-    [SerializeField] private RifleSoundChanger changer;
+    [SerializeField] private SoundChanger changer;
     [SerializeField] private Transform attack_Pos;
     [SerializeField] private Transform effect_Pos;
     private PlayerMove playerMove;
     private bool SetbattleMode = false;
+
+    [SerializeField] private AudioSource battleModeSound;
+    [SerializeField] private KatanaSoundChanger katanaSoundChanger;
+
 
 
 
@@ -49,7 +67,9 @@ public class SkillManager : MonoBehaviour
     {
         playerMove = GetComponent<PlayerMove>();
         sword_Attack_SoundClip = sword_Attack_Sound.clip;
+       
         battle_Mode_Animator = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
     }
 
     private void Update()
@@ -233,8 +253,11 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator KatanaPowerAttack()// 각성 Q스킬
     {
+        
+        battleModeSound.clip = katanaSoundChanger.battleMode_skill_Q;
         animator.SetTrigger("isCountAttack");
-        yield return new WaitForSeconds(0.6f);
+       yield return new WaitForSeconds(0.6f);
+        battleModeSound.PlayOneShot(battleModeSound.clip);
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Attack.SetActive(true);
         yield return new WaitForSeconds(0.5f);
@@ -244,8 +267,10 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator KatanaCircleAttack()// 각성 W스킬
     {
+        battleModeSound.clip = katanaSoundChanger.battleMode_skill_W;
         animator.SetTrigger("isCountAttackTwo");
         yield return new WaitForSeconds(0.2f);
+        battleModeSound.PlayOneShot(battleModeSound.clip);
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Attack.SetActive(true);
         yield return new WaitForSeconds(1.0f);
@@ -256,8 +281,9 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator KatanaDash()// 각성 E스킬
     {
+        battleModeSound.clip = katanaSoundChanger.battleMode_skill_W;
+        battleModeSound.PlayOneShot(battleModeSound.clip);
         animator.SetTrigger("isSmash");
-        
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Attack.SetActive(true);
         yield return new WaitForSeconds(2.5f);  
@@ -269,8 +295,10 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator KatanaAwakeAttack()// 각성 R스킬(각성기)
     {
+        battleModeSound.clip = katanaSoundChanger.battleMode_skill_R;
         animator.SetTrigger("isAwake");
         yield return new WaitForSeconds(1.2f);
+        battleModeSound.PlayOneShot(battleModeSound.clip);
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Attack.SetActive(true);
         yield return new WaitForSeconds(2.0f);

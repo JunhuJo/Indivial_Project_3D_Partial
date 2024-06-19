@@ -2,19 +2,12 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class GameManageMent : MonoBehaviour
 {
-    [Header("Cursor Settings")]
-    [SerializeField] private Texture2D customCursorTexture; // 커서 이미지
-    [SerializeField] private Vector2 hotSpot = Vector2.zero; // 커서 핫스팟 (이미지의 중심을 기준으로 커서 위치를 설정)
-
-    [Header("CharacterCreate")]
-    [SerializeField] private CinemachineVirtualCamera virtual_Camera;
-    [SerializeField] private GameObject Player_Prefap;
-
-
+    
     private static GameManageMent instance;
 
     // 인스턴스에 접근하기 위한 프로퍼티
@@ -39,6 +32,21 @@ public class GameManageMent : MonoBehaviour
             return instance;
         }
     }
+
+
+    [Header("Cursor_Settings")]
+    [SerializeField] private Texture2D customCursorTexture; // 커서 이미지
+    [SerializeField] private Vector2 hotSpot = Vector2.zero; // 커서 핫스팟 (이미지의 중심을 기준으로 커서 위치를 설정)
+
+    [Header("Character_Create")]
+    [SerializeField] private CinemachineVirtualCamera virtual_Camera;
+    [SerializeField] private GameObject Player_Prefap;
+
+
+    [Header("Sound_Manager")]
+    [SerializeField] private AudioMixerGroup audioMixerGroup;
+
+
 
     private void Awake()
     {
