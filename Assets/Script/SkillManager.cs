@@ -207,47 +207,74 @@ public class SkillManager : MonoBehaviour
         //스킬 Q(검 스킬)
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            StartCoroutine(KatanaSkillA());
+            StartCoroutine(KatanaPowerAttack());
         }
 
-        ////스킬 W(발도)
-        //if (Input.GetKeyDown(KeyCode.W))
-        //{
-        //    
-        //}
-        //
-        ////스킬 E(대쉬)
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    
-        //}
-        //
+        //스킬 W(발도)
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            StartCoroutine(KatanaCircleAttack());
+        }
+        
+        //스킬 E(대쉬)
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            StartCoroutine(KatanaDash());  
+        }
+        
+
         //스킬 R(각성기)
         if (Input.GetKeyDown(KeyCode.R))
         {
-            StartCoroutine(KatanaSkillR());
+            StartCoroutine(KatanaAwakeAttack());
         }
 
-        IEnumerator KatanaSkillA()
-        {
-            animator.SetTrigger("isCountAttack");
-            yield return new WaitForSeconds(0.6f);
-            battle_Mode_Weapon_Start.SetActive(false);
-            battle_Mode_Weapon_Attack.SetActive(true);
-            yield return new WaitForSeconds(0.5f);
-            battle_Mode_Weapon_Start.SetActive(true);
-            battle_Mode_Weapon_Attack.SetActive(false);
-        }
+    }
 
-        IEnumerator KatanaSkillR()
-        {
-            animator.SetTrigger("isAwake");
-            yield return new WaitForSeconds(1.2f);
-            battle_Mode_Weapon_Start.SetActive(false);
-            battle_Mode_Weapon_Attack.SetActive(true);
-            yield return new WaitForSeconds(2.0f);
-            battle_Mode_Weapon_Start.SetActive(true);
-            battle_Mode_Weapon_Attack.SetActive(false);
-        }
+    IEnumerator KatanaPowerAttack()// 각성 Q스킬
+    {
+        animator.SetTrigger("isCountAttack");
+        yield return new WaitForSeconds(0.6f);
+        battle_Mode_Weapon_Start.SetActive(false);
+        battle_Mode_Weapon_Attack.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        battle_Mode_Weapon_Start.SetActive(true);
+        battle_Mode_Weapon_Attack.SetActive(false);
+    }
+
+    IEnumerator KatanaCircleAttack()// 각성 W스킬
+    {
+        animator.SetTrigger("isCountAttackTwo");
+        yield return new WaitForSeconds(0.2f);
+        battle_Mode_Weapon_Start.SetActive(false);
+        battle_Mode_Weapon_Attack.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        battle_Mode_Weapon_Start.SetActive(true);
+        battle_Mode_Weapon_Attack.SetActive(false);
+    }
+
+
+    IEnumerator KatanaDash()// 각성 E스킬
+    {
+        animator.SetTrigger("isSmash");
+        
+        battle_Mode_Weapon_Start.SetActive(false);
+        battle_Mode_Weapon_Attack.SetActive(true);
+        yield return new WaitForSeconds(2.5f);  
+
+        battle_Mode_Weapon_Start.SetActive(true);
+        battle_Mode_Weapon_Attack.SetActive(false);
+    }
+
+
+    IEnumerator KatanaAwakeAttack()// 각성 R스킬(각성기)
+    {
+        animator.SetTrigger("isAwake");
+        yield return new WaitForSeconds(1.2f);
+        battle_Mode_Weapon_Start.SetActive(false);
+        battle_Mode_Weapon_Attack.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        battle_Mode_Weapon_Start.SetActive(true);
+        battle_Mode_Weapon_Attack.SetActive(false);
     }
 }
