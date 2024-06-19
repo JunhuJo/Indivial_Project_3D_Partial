@@ -7,6 +7,7 @@ public class MonsterAI : MonoBehaviour
     [SerializeField] private Transform[] waypoints; 
     [SerializeField] private Transform target;
     [SerializeField] private float targetDetectionRange = 10f;
+    public float stoppingDistance = 1f; // 타겟에 근접하는 거리
     private Animator monsterAnimator;
 
     private NavMeshAgent agent;
@@ -30,20 +31,18 @@ public class MonsterAI : MonoBehaviour
 
         if (distanceToTarget <= targetDetectionRange)
         {
-            agent.SetDestination(target.position);
-
-            if (monsterType == 1 || distanceToTarget == 1) // 근거리
+            // 타겟이 일정 범위 내에 있을 때 타겟 근처로 이동
+            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            Vector3 targetPosition = target.position - directionToTarget * stoppingDistance;
+            agent.SetDestination(targetPosition);
+            if (gameObject.transform.position == targetPosition)
             {
                 monsterAnimator.SetTrigger("isMonsterAttack");
-            }
-
-            if (monsterType == 2 || distanceToTarget == 3) { }// 원거리
-            {
-                monsterAnimator.SetTrigger("isLongDistanceMonsterAttack");
             }
         }
         else
         {
+            // Waypoint에 도착했는지 확인
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
                 MoveToNextWaypoint();
