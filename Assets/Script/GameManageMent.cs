@@ -43,6 +43,9 @@ public class GameManageMent : MonoBehaviour
     [SerializeField] private GameObject Player_Prefap;
 
 
+    [Header("MiniMap")]
+    [SerializeField] private MinMapFlow miniMap;
+
     [Header("Sound_Manager")]
     [SerializeField] private AudioMixerGroup audioMixerGroup;
 
@@ -80,6 +83,7 @@ public class GameManageMent : MonoBehaviour
         ChangeCursor(customCursorTexture, hotSpot);
         GameObject Player = Instantiate(Player_Prefap);
         virtual_Camera.Follow = Player.transform;
+        miniMap.player = Player.transform;
     }
 
     private void Update()
