@@ -7,6 +7,8 @@ public class KatanaSoundChanger : MonoBehaviour
     public AudioClip battleMode_skill_Q;
     public AudioClip battleMode_skill_W;
     public AudioClip battleMode_skill_E;
+    public AudioClip battleMode_skill_E_Sub;
     public AudioClip battleMode_skill_R;
+    public AudioClip battleMode_Change;
     public AudioClip temp;
 }

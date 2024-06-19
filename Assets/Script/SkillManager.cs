@@ -35,7 +35,13 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private GameObject battle_Mode_Weapon_Attack;
 
 
-    [Header("BattleMode_Katana_SKill_Q")]
+    [Header("BattleMode_Katana_SKill")]
+    [SerializeField] private ParticleSystem skill_Q_Effect;
+    [SerializeField] private ParticleSystem skill_W_Effect;
+    [SerializeField] private ParticleSystem skill_E_Effect;
+    [SerializeField] private ParticleSystem skill_R1_Effect;
+    [SerializeField] private ParticleSystem skill_R2_Effect;
+    
     //[SerializeField] private float moveSpeed = 5f;
     //[SerializeField] private float dashSpeed = 20f;
     //[SerializeField] private float dashTime = 0.2f;
@@ -59,8 +65,6 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField] private AudioSource battleModeSound;
     [SerializeField] private KatanaSoundChanger katanaSoundChanger;
-
-
 
 
     private void Start()
@@ -137,7 +141,6 @@ public class SkillManager : MonoBehaviour
         playerMove.enabled = true;
     }
 
-
     IEnumerator OnSitShoot()//스킬 W
     {
         playerMove.enabled = false;
@@ -172,6 +175,7 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator OnSwordAttack()//스킬 E
     {
+        
         playerMove.enabled = false;
         animator.SetTrigger("isSwordAttack");
         rifle.gameObject.SetActive(false);
@@ -195,6 +199,7 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator OnBattlModeChange()//스킬 R
     {
+        battleModeSound.clip = katanaSoundChanger.battleMode_Change;
         playerMove.enabled = false;
         rifle.gameObject.SetActive(false);
         katana_Sub.gameObject.SetActive(false);
@@ -202,7 +207,7 @@ public class SkillManager : MonoBehaviour
         
         animator.SetTrigger("isBattleModeChange");
         yield return new WaitForSeconds(1.5f);
-
+        battleModeSound.PlayOneShot(battleModeSound.clip);
         battle_Mode_Change_Effect_First.Play();
         battle_Mode_Change_Effect_Scound.Play();
         yield return new WaitForSeconds(4.0f);
@@ -248,19 +253,19 @@ public class SkillManager : MonoBehaviour
         {
             StartCoroutine(KatanaAwakeAttack());
         }
-
     }
-
+    #region AwakeMode
     IEnumerator KatanaPowerAttack()// 각성 Q스킬
     {
-        
         battleModeSound.clip = katanaSoundChanger.battleMode_skill_Q;
         animator.SetTrigger("isCountAttack");
-       yield return new WaitForSeconds(0.6f);
         battleModeSound.PlayOneShot(battleModeSound.clip);
+        yield return new WaitForSeconds(0.6f);
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Attack.SetActive(true);
+        skill_Q_Effect.Play();
         yield return new WaitForSeconds(0.5f);
+        skill_Q_Effect.Stop();
         battle_Mode_Weapon_Start.SetActive(true);
         battle_Mode_Weapon_Attack.SetActive(false);
     }
@@ -273,7 +278,10 @@ public class SkillManager : MonoBehaviour
         battleModeSound.PlayOneShot(battleModeSound.clip);
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Attack.SetActive(true);
+        skill_W_Effect.Play();
+        
         yield return new WaitForSeconds(1.0f);
+        skill_W_Effect.Stop();
         battle_Mode_Weapon_Start.SetActive(true);
         battle_Mode_Weapon_Attack.SetActive(false);
     }
@@ -281,13 +289,18 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator KatanaDash()// 각성 E스킬
     {
-        battleModeSound.clip = katanaSoundChanger.battleMode_skill_W;
+        battleModeSound.clip = katanaSoundChanger.battleMode_skill_E;
         battleModeSound.PlayOneShot(battleModeSound.clip);
         animator.SetTrigger("isSmash");
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Attack.SetActive(true);
-        yield return new WaitForSeconds(2.5f);  
-
+        battleModeSound.clip = katanaSoundChanger.battleMode_skill_E_Sub;
+        battleModeSound.PlayOneShot(battleModeSound.clip);
+        yield return new WaitForSeconds(0.5f);
+        skill_E_Effect.Play();
+        yield return new WaitForSeconds(0.5f);
+        skill_E_Effect.Stop();
+        yield return new WaitForSeconds(1.0f);
         battle_Mode_Weapon_Start.SetActive(true);
         battle_Mode_Weapon_Attack.SetActive(false);
     }
@@ -298,11 +311,20 @@ public class SkillManager : MonoBehaviour
         battleModeSound.clip = katanaSoundChanger.battleMode_skill_R;
         animator.SetTrigger("isAwake");
         yield return new WaitForSeconds(1.2f);
-        battleModeSound.PlayOneShot(battleModeSound.clip);
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Attack.SetActive(true);
-        yield return new WaitForSeconds(2.0f);
+        battleModeSound.PlayOneShot(battleModeSound.clip);
+        skill_R1_Effect.Play();
+        skill_R2_Effect.Play();
+        yield return new WaitForSeconds(0.5f);
+        skill_R1_Effect.Play();
+        skill_R2_Effect.Play();
+        yield return new WaitForSeconds(1.0f);
+        skill_R1_Effect.Stop();
+        skill_R2_Effect.Stop();
+        yield return new WaitForSeconds(0.3f);
         battle_Mode_Weapon_Start.SetActive(true);
         battle_Mode_Weapon_Attack.SetActive(false);
     }
+    #endregion
 }
