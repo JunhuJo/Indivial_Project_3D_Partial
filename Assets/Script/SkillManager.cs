@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,28 +9,25 @@ public class SkillManager : MonoBehaviour
 
     [Header("Skill_Q")]
     [SerializeField] Text skill_Q_CoolTime_Text;
-    [SerializeField] private float skill_Q_CoolTime = 5.0f;
-    private bool set_Skill_Q_CollTime = false;
     [SerializeField] private GameObject darkness_Shoot_Bullet;
     [SerializeField] private GameObject darkness_Shoot_Effect;
+    [SerializeField] private SkillCooldownUI qSkillCooldownUI; // Q 스킬 쿨타임 UI 추가
     private AudioClip darkness_SoundClip;
     
 
     [Header("Skill_W")]
     [SerializeField] Text skill_W_CoolTime_Text;
-    [SerializeField] private float skill_W_CoolTime = 5.5f;
-    private bool set_Skill_W_CollTime = false;
     [SerializeField] private GameObject sniping_shoot_Bullet;
     [SerializeField] private GameObject sniping_shoot_Effect;
+    [SerializeField] private SkillCooldownUI wSkillCooldownUI; // W 스킬 쿨타임 UI 추가
     private AudioClip sniping_SoundClip;
     
 
     [Header("Skill_E")]
     [SerializeField] Text skill_E_CoolTime_Text;
-    [SerializeField] private float skill_E_CoolTime = 2.0f;
-    private bool set_Skill_E_CollTime = false;
     [SerializeField] private GameObject sword_Attack_Effect;
     [SerializeField] private AudioSource sword_Attack_Sound;
+    [SerializeField] private SkillCooldownUI eSkillCooldownUI; // E 스킬 쿨타임 UI 추가
     private AudioClip sword_Attack_SoundClip;
     [SerializeField] private GameObject rifle;
     [SerializeField] private GameObject katana;
@@ -38,17 +36,18 @@ public class SkillManager : MonoBehaviour
 
     [Header("Skill_R")]
     [SerializeField] Text skill_R_CoolTime_Text;
-    [SerializeField] private float skill_R_CoolTime = 10.0f;
-    private bool set_Skill_R_CollTime = false;
     [SerializeField] private ParticleSystem battle_Mode_Change_Effect_First;
     [SerializeField] private ParticleSystem battle_Mode_Change_Effect_Scound;
+    [SerializeField] private SkillCooldownUI rSkillCooldownUI; // R 스킬 쿨타임 UI 추가
     [SerializeField] private GameObject battle_Mode_Trigger;
     private Animator battle_Mode_Animator;
+    private AudioSource Skill_R_Voice;
     [SerializeField] private RuntimeAnimatorController battle_Mode;
     [SerializeField] private GameObject battle_Mode_Weapon_Start;
     [SerializeField] private GameObject battle_Mode_Weapon_Saya;
-
     [SerializeField] private GameObject battle_Mode_Weapon_Attack;
+
+    
    
 
 
@@ -59,11 +58,7 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private ParticleSystem skill_R1_Effect;
     [SerializeField] private ParticleSystem skill_R2_Effect;
     
-    //[SerializeField] private float moveSpeed = 5f;
-    //[SerializeField] private float dashSpeed = 20f;
-    //[SerializeField] private float dashTime = 0.2f;
-    //[SerializeField] private float dashCooldown = 1f;
-    
+
     private Vector3 moveDirection;
     private bool isDashing = false;
     private float dashTimeLeft;
@@ -83,6 +78,21 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private AudioSource battleModeSound;
     [SerializeField] private KatanaSoundChanger katanaSoundChanger;
 
+    public float skill_Q_CooldownTime = 5f; // Q 스킬 쿨타임 시간
+    public float skill_W_CooldownTime = 5f; // W 스킬 쿨타임 시간
+    public float skill_E_CooldownTime = 5f; // E 스킬 쿨타임 시간
+    public float skill_R_CooldownTime = 5f; // R 스킬 쿨타임 시간
+
+    private bool set_Skill_Q_Cooldown = false;
+    private bool set_Skill_W_Cooldown = false;
+    private bool set_Skill_E_Cooldown = false;
+    private bool set_Skill_R_Cooldown = false;
+
+    private float skill_Q_CooldownTimer = 0f;
+    private float skill_W_CooldownTimer = 0f;
+    private float skill_E_CooldownTimer = 0f;
+    private float skill_R_CooldownTimer = 0f;
+
 
     private void Start()
     {
@@ -91,13 +101,63 @@ public class SkillManager : MonoBehaviour
        
         battle_Mode_Animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+        Skill_R_Voice = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
         BattleStyle();
-        StartCoroutine(Q_Skill_CoolTime());
+        UpdateCooldowns();
     }
+
+    private void UpdateCooldowns()
+    {
+        if (set_Skill_Q_Cooldown)
+        {
+            skill_Q_CooldownTimer -= Time.deltaTime;
+            if (skill_Q_CooldownTimer <= 0f)
+            {
+                set_Skill_Q_Cooldown = false;
+                skill_Q_CooldownTimer = 0f;
+            }
+            qSkillCooldownUI.cooldownOverlay.fillAmount = skill_Q_CooldownTimer / skill_Q_CooldownTime; // Q 스킬 쿨타임 UI 업데이트
+        }
+
+        if (set_Skill_W_Cooldown)
+        {
+            skill_W_CooldownTimer -= Time.deltaTime;
+            if (skill_W_CooldownTimer <= 0f)
+            {
+                set_Skill_W_Cooldown = false;
+                skill_W_CooldownTimer = 0f;
+            }
+            wSkillCooldownUI.cooldownOverlay.fillAmount = skill_W_CooldownTimer / skill_W_CooldownTime; // W 스킬 쿨타임 UI 업데이트
+        }
+
+        if (set_Skill_E_Cooldown)
+        {
+            skill_E_CooldownTimer -= Time.deltaTime;
+            if (skill_E_CooldownTimer <= 0f)
+            {
+                set_Skill_E_Cooldown = false;
+                skill_E_CooldownTimer = 0f;
+            }
+            eSkillCooldownUI.cooldownOverlay.fillAmount = skill_E_CooldownTimer / skill_E_CooldownTime; // E 스킬 쿨타임 UI 업데이트
+        }
+
+        if (set_Skill_R_Cooldown)
+        {
+            skill_R_CooldownTimer -= Time.deltaTime;
+            if (skill_R_CooldownTimer <= 0f)
+            {
+                set_Skill_R_Cooldown = false;
+                skill_R_CooldownTimer = 0f;
+            }
+            rSkillCooldownUI.cooldownOverlay.fillAmount = skill_R_CooldownTimer / skill_R_CooldownTime; // R 스킬 쿨타임 UI 업데이트
+        }
+    }
+
+    
 
     private void BattleStyle()
     {
@@ -115,39 +175,40 @@ public class SkillManager : MonoBehaviour
 
     private void BaseBattleModeSkill()
     {
-        //스킬 Q(라이플스킬)
-        if (Input.GetKeyDown(KeyCode.Q) && !set_Skill_Q_CollTime)
+        if (Input.GetKeyDown(KeyCode.Q) && !set_Skill_Q_Cooldown)
         {
             StartCoroutine(OnDarknessShoot());
+            set_Skill_Q_Cooldown = true;
+            skill_Q_CooldownTimer = skill_Q_CooldownTime;
+            qSkillCooldownUI.StartCooldown(); // Q 스킬
         }
 
-        //스킬 W(라이플스킬)
-        if (Input.GetKeyDown(KeyCode.W) && !set_Skill_W_CollTime)
+        if (Input.GetKeyDown(KeyCode.W) && !set_Skill_W_Cooldown)
         {
             StartCoroutine(OnSitShoot());
+            set_Skill_W_Cooldown = true;
+            skill_W_CooldownTimer = skill_W_CooldownTime;
         }
 
-        //스킬 E(소드스킬)
-        if (Input.GetKeyDown(KeyCode.E) && !set_Skill_E_CollTime)
+        if (Input.GetKeyDown(KeyCode.E) && !set_Skill_E_Cooldown)
         {
             StartCoroutine(OnSwordAttack());
+            set_Skill_E_Cooldown = true;
+            skill_E_CooldownTimer = skill_E_CooldownTime;
         }
 
-        //스킬 R(배틀모드 변환)
-        if (Input.GetKeyDown(KeyCode.R) && !set_Skill_R_CollTime)
+        if (Input.GetKeyDown(KeyCode.R) && !set_Skill_R_Cooldown)
         {
             StartCoroutine(OnBattlModeChange());
+            set_Skill_R_Cooldown = true;
+            skill_R_CooldownTimer = skill_R_CooldownTime;
         }
     }
 
     #region BaseBattleMode
     IEnumerator OnDarknessShoot() // 스킬 Q
     {
-        
         playerMove.enabled = false;
-        
-       
-
         animator.SetTrigger("isDarkness");
         yield return new WaitForSeconds(0.8f);
         changer.temp_SoundClip = shoot_Sound.clip;
@@ -163,17 +224,7 @@ public class SkillManager : MonoBehaviour
         playerMove.enabled = true;
     }
 
-    IEnumerator Q_Skill_CoolTime()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            set_Skill_Q_CollTime = true;
-            skill_Q_CoolTime -= Time.deltaTime;
-            skill_Q_CoolTime_Text.text = $"{skill_Q_CoolTime}";
-            yield return new WaitForSeconds(5f);
-            set_Skill_Q_CollTime = false;
-        }
-    }
+    
 
     IEnumerator OnSitShoot()//스킬 W
     {
@@ -234,6 +285,7 @@ public class SkillManager : MonoBehaviour
     IEnumerator OnBattlModeChange()//스킬 R
     {
         battleModeSound.clip = katanaSoundChanger.battleMode_Change;
+        Skill_R_Voice.Play();
         playerMove.enabled = false;
         rifle.gameObject.SetActive(false);
         katana_Sub.gameObject.SetActive(false);
@@ -251,8 +303,7 @@ public class SkillManager : MonoBehaviour
 
         battle_Mode_Weapon_Start.SetActive(true);
         battle_Mode_Weapon_Saya.SetActive(true);
-        //rifle.gameObject.SetActive(true);
-        //katana_Sub.gameObject.SetActive(true);
+       
 
         yield return null;
         SetbattleMode = true;
