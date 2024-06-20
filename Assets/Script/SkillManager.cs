@@ -1,29 +1,45 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
     [SerializeField] private Animator animator;
 
     [Header("Skill_Q")]
+    [SerializeField] Text skill_Q_CoolTime_Text;
+    [SerializeField] private float skill_Q_CoolTime = 5.0f;
+    private bool set_Skill_Q_CollTime = false;
     [SerializeField] private GameObject darkness_Shoot_Bullet;
     [SerializeField] private GameObject darkness_Shoot_Effect;
     private AudioClip darkness_SoundClip;
+    
 
     [Header("Skill_W")]
+    [SerializeField] Text skill_W_CoolTime_Text;
+    [SerializeField] private float skill_W_CoolTime = 5.5f;
+    private bool set_Skill_W_CollTime = false;
     [SerializeField] private GameObject sniping_shoot_Bullet;
     [SerializeField] private GameObject sniping_shoot_Effect;
     private AudioClip sniping_SoundClip;
     
+
     [Header("Skill_E")]
+    [SerializeField] Text skill_E_CoolTime_Text;
+    [SerializeField] private float skill_E_CoolTime = 2.0f;
+    private bool set_Skill_E_CollTime = false;
     [SerializeField] private GameObject sword_Attack_Effect;
     [SerializeField] private AudioSource sword_Attack_Sound;
     private AudioClip sword_Attack_SoundClip;
     [SerializeField] private GameObject rifle;
     [SerializeField] private GameObject katana;
     [SerializeField] private GameObject katana_Sub;
+    
 
     [Header("Skill_R")]
+    [SerializeField] Text skill_R_CoolTime_Text;
+    [SerializeField] private float skill_R_CoolTime = 10.0f;
+    private bool set_Skill_R_CollTime = false;
     [SerializeField] private ParticleSystem battle_Mode_Change_Effect_First;
     [SerializeField] private ParticleSystem battle_Mode_Change_Effect_Scound;
     [SerializeField] private GameObject battle_Mode_Trigger;
@@ -33,6 +49,7 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private GameObject battle_Mode_Weapon_Saya;
 
     [SerializeField] private GameObject battle_Mode_Weapon_Attack;
+   
 
 
     [Header("BattleMode_Katana_SKill")]
@@ -79,6 +96,7 @@ public class SkillManager : MonoBehaviour
     private void Update()
     {
         BattleStyle();
+        StartCoroutine(Q_Skill_CoolTime());
     }
 
     private void BattleStyle()
@@ -98,25 +116,25 @@ public class SkillManager : MonoBehaviour
     private void BaseBattleModeSkill()
     {
         //스킬 Q(라이플스킬)
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && !set_Skill_Q_CollTime)
         {
             StartCoroutine(OnDarknessShoot());
         }
 
         //스킬 W(라이플스킬)
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) && !set_Skill_W_CollTime)
         {
             StartCoroutine(OnSitShoot());
         }
 
         //스킬 E(소드스킬)
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && !set_Skill_E_CollTime)
         {
             StartCoroutine(OnSwordAttack());
         }
 
         //스킬 R(배틀모드 변환)
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !set_Skill_R_CollTime)
         {
             StartCoroutine(OnBattlModeChange());
         }
@@ -125,7 +143,11 @@ public class SkillManager : MonoBehaviour
     #region BaseBattleMode
     IEnumerator OnDarknessShoot() // 스킬 Q
     {
+        
         playerMove.enabled = false;
+        
+       
+
         animator.SetTrigger("isDarkness");
         yield return new WaitForSeconds(0.8f);
         changer.temp_SoundClip = shoot_Sound.clip;
@@ -139,6 +161,18 @@ public class SkillManager : MonoBehaviour
         shoot_Sound.clip = changer.temp_SoundClip;
         yield return null;
         playerMove.enabled = true;
+    }
+
+    IEnumerator Q_Skill_CoolTime()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            set_Skill_Q_CollTime = true;
+            skill_Q_CoolTime -= Time.deltaTime;
+            skill_Q_CoolTime_Text.text = $"{skill_Q_CoolTime}";
+            yield return new WaitForSeconds(5f);
+            set_Skill_Q_CollTime = false;
+        }
     }
 
     IEnumerator OnSitShoot()//스킬 W
