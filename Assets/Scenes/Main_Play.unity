@@ -1097,7 +1097,7 @@ MonoBehaviour:
   customCursorTexture: {fileID: 2800000, guid: 44a99ee545fd8ba46a452b12c1f9378b, type: 3}
   hotSpot: {x: 0, y: 0}
   virtual_Camera: {fileID: 408696527}
-  Player_Prefap: {fileID: 5455193350384182016, guid: 500a857e633c5ba4d95db0d60211751c, type: 3}
+  Player_Prefap: {fileID: 7737428402448047902, guid: 500a857e633c5ba4d95db0d60211751c, type: 3}
   player_Info: {fileID: 0}
   player_Hp: {fileID: 1186639417}
   player_Ep: {fileID: 986303067}

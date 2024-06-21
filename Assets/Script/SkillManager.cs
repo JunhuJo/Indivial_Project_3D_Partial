@@ -41,7 +41,7 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private SkillCooldownUI rSkillCooldownUI; // R 스킬 쿨타임 UI 추가
     [SerializeField] private GameObject battle_Mode_Trigger;
     private Animator battle_Mode_Animator;
-    private AudioSource Skill_R_Voice;
+    
     [SerializeField] private RuntimeAnimatorController battle_Mode;
     [SerializeField] private RuntimeAnimatorController base_Mode;
     public GameObject battle_Mode_Weapon_Start;
@@ -50,8 +50,7 @@ public class SkillManager : MonoBehaviour
 
     [Header("Skill_R_New")]
     [SerializeField] private ParticleSystem skill_R_New_Effect_First;
-    [SerializeField] private AudioSource skill_R_New_Sound;
-    private AudioClip skill_R_New_SoundClip;
+    [SerializeField] private AudioClip gun_SoundClip;
     [SerializeField] private GameObject gun;
     //[SerializeField] private Transform gun_shoot_Pos;
 
@@ -99,6 +98,20 @@ public class SkillManager : MonoBehaviour
     private float skill_R_CooldownTimer = 0f;
 
 
+    private AudioSource skill_Voice;
+    [SerializeField] private AudioClip darkNess_Shoot_Voice;
+    [SerializeField] private AudioClip sit_Shoot_Voice;
+    [SerializeField] private AudioClip sword_Attack_Voice;
+    [SerializeField] private AudioClip chain_Shoot_Voice;
+    [SerializeField] private AudioClip awake_Change_Voice;
+
+    [SerializeField] private AudioClip count_Attack_Voice;
+    [SerializeField] private AudioClip count_Attack_Two_Voice;
+    [SerializeField] private AudioClip air_Attack_Voice;
+    [SerializeField] private AudioClip awake_Skill_Voice;
+    [SerializeField] private AudioClip awake_Close_Voice;
+
+
     private void Start()
     {
         playerMove = GetComponent<PlayerMove>();
@@ -106,7 +119,7 @@ public class SkillManager : MonoBehaviour
        
         battle_Mode_Animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
-        Skill_R_Voice = GetComponent<AudioSource>();
+        skill_Voice = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -219,7 +232,9 @@ public class SkillManager : MonoBehaviour
     #region BaseBattleMode
     IEnumerator OnDarknessShoot() // 스킬 Q
     {
+        skill_Voice.clip = darkNess_Shoot_Voice;
         playerMove.enabled = false;
+        skill_Voice.Play();
         animator.SetTrigger("isDarkness");
         yield return new WaitForSeconds(0.8f);
         changer.temp_SoundClip = shoot_Sound.clip;
@@ -237,7 +252,9 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator OnSitShoot()//스킬 W
     {
+        skill_Voice.clip = sit_Shoot_Voice;
         playerMove.enabled = false;
+        skill_Voice.Play();
         changer.temp_SoundClip = shoot_Sound.clip;
         shoot_Sound.clip = changer.sniping_SoundClip_First;
         animator.SetBool("isSitShootA", true);
@@ -269,8 +286,9 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator OnSwordAttack()//스킬 E
     {
-        
+        skill_Voice.clip = sword_Attack_Voice;
         playerMove.enabled = false;
+        skill_Voice.Play();
         animator.SetTrigger("isSwordAttack");
         rifle.gameObject.SetActive(false);
         katana.gameObject.SetActive(true);
@@ -293,10 +311,15 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator Chain_Shoot()//스킬 R
     {
+        shoot_Sound.clip = gun_SoundClip;
+        skill_Voice.clip = chain_Shoot_Voice;
         playerMove.enabled = false;
+        skill_Voice.Play();
         gun.SetActive(true);
         animator.SetTrigger("isChainShoot");
+        
         yield return new WaitForSeconds(0.5f);
+        shoot_Sound.PlayOneShot(shoot_Sound.clip);
         skill_R_New_Effect_First.Play();
         yield return new WaitForSeconds(1.4f);
         gun.SetActive(false);
@@ -307,7 +330,8 @@ public class SkillManager : MonoBehaviour
     IEnumerator OnBattlModeChange()
     {
         battleModeSound.clip = katanaSoundChanger.battleMode_Change;
-        Skill_R_Voice.Play();
+        skill_Voice.clip = awake_Change_Voice;
+        skill_Voice.Play();
         playerMove.enabled = false;
         rifle.gameObject.SetActive(false);
         katana_Sub.gameObject.SetActive(false);
@@ -370,8 +394,10 @@ public class SkillManager : MonoBehaviour
     #region AwakeMode
     IEnumerator KatanaPowerAttack()// 각성 Q스킬
     {
+        skill_Voice.clip = count_Attack_Voice;
         battleModeSound.clip = katanaSoundChanger.battleMode_skill_Q;
         animator.SetTrigger("isCountAttack");
+        skill_Voice.Play();
         battleModeSound.PlayOneShot(battleModeSound.clip);
         yield return new WaitForSeconds(0.6f);
         battle_Mode_Weapon_Start.SetActive(false);
@@ -385,8 +411,10 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator KatanaCircleAttack()// 각성 W스킬
     {
+        skill_Voice.clip = count_Attack_Two_Voice;
         battleModeSound.clip = katanaSoundChanger.battleMode_skill_W;
         animator.SetTrigger("isCountAttackTwo");
+        skill_Voice.Play();
         yield return new WaitForSeconds(0.2f);
         battleModeSound.PlayOneShot(battleModeSound.clip);
         battle_Mode_Weapon_Start.SetActive(false);
@@ -401,8 +429,10 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator KatanaDash()// 각성 E스킬
     {
+        skill_Voice.clip = air_Attack_Voice;
         battleModeSound.clip = katanaSoundChanger.battleMode_skill_E;
         battleModeSound.PlayOneShot(battleModeSound.clip);
+        skill_Voice.Play();
         animator.SetTrigger("isSmash");
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Attack.SetActive(true);
@@ -419,8 +449,10 @@ public class SkillManager : MonoBehaviour
 
     IEnumerator KatanaAwakeAttack()// 각성 R스킬(각성기)
     {
+        skill_Voice.clip = awake_Skill_Voice;
         battleModeSound.clip = katanaSoundChanger.battleMode_skill_R;
         animator.SetTrigger("isAwake");
+        skill_Voice.Play();
         yield return new WaitForSeconds(1.2f);
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Attack.SetActive(true);
@@ -442,9 +474,10 @@ public class SkillManager : MonoBehaviour
     IEnumerator AwakClose()// 각성 해제
     {
         //battleModeSound.clip = katanaSoundChanger.battleMode_Change;
-        
+        skill_Voice.clip = awake_Close_Voice;
         playerMove.enabled = false;
         animator.SetTrigger("isModeEnd");
+        skill_Voice.Play();
         yield return new WaitForSeconds(2.0f);
         battle_Mode_Change_Effect_First.Stop();
         //battle_Mode_Trigger.gameObject.SetActive(false);
