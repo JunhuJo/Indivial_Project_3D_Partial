@@ -445,24 +445,21 @@ public class SkillManager : MonoBehaviour
         
         playerMove.enabled = false;
         animator.SetTrigger("isModeEnd");
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
         battle_Mode_Change_Effect_First.Stop();
         //battle_Mode_Trigger.gameObject.SetActive(false);
         rifle.gameObject.SetActive(true);
         katana_Sub.gameObject.SetActive(true);
-        
-        //battleModeSound.PlayOneShot(battleModeSound.clip);
-        //battle_Mode_Change_Effect_First.Play();
-        //battle_Mode_Change_Effect_Scound.Play();
-        yield return new WaitForSeconds(2.0f);
-
-        //battle_Mode_Trigger.gameObject.SetActive(true);
-        battle_Mode_Animator.runtimeAnimatorController = base_Mode;
 
         battle_Mode_Weapon_Start.SetActive(false);
         battle_Mode_Weapon_Saya.SetActive(false);
-
-        yield return null;
+        battle_Mode_Animator.runtimeAnimatorController = base_Mode;
+        //battleModeSound.PlayOneShot(battleModeSound.clip);
+        //battle_Mode_Change_Effect_First.Play();
+        //battle_Mode_Change_Effect_Scound.Play();
+        yield return new WaitForSeconds(0.5f);
+        //battle_Mode_Trigger.gameObject.SetActive(true);
+        
         SetbattleMode = false;
         playerMove.enabled = true;
     }
