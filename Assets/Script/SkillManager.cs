@@ -43,12 +43,17 @@ public class SkillManager : MonoBehaviour
     private Animator battle_Mode_Animator;
     private AudioSource Skill_R_Voice;
     [SerializeField] private RuntimeAnimatorController battle_Mode;
-    [SerializeField] private GameObject battle_Mode_Weapon_Start;
+    [SerializeField] private RuntimeAnimatorController base_Mode;
+    public GameObject battle_Mode_Weapon_Start;
     [SerializeField] private GameObject battle_Mode_Weapon_Saya;
-    [SerializeField] private GameObject battle_Mode_Weapon_Attack;
+    public GameObject battle_Mode_Weapon_Attack;
 
-    
-   
+    [Header("Skill_R_New")]
+    [SerializeField] private ParticleSystem skill_R_New_Effect_First;
+    [SerializeField] private AudioSource skill_R_New_Sound;
+    private AudioClip skill_R_New_SoundClip;
+    [SerializeField] private GameObject gun;
+    //[SerializeField] private Transform gun_shoot_Pos;
 
 
     [Header("BattleMode_Katana_SKill")]
@@ -73,7 +78,7 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private Transform attack_Pos;
     [SerializeField] private Transform effect_Pos;
     private PlayerMove playerMove;
-    private bool SetbattleMode = false;
+    public bool SetbattleMode = false;
 
     [SerializeField] private AudioSource battleModeSound;
     [SerializeField] private KatanaSoundChanger katanaSoundChanger;
@@ -120,7 +125,7 @@ public class SkillManager : MonoBehaviour
                 set_Skill_Q_Cooldown = false;
                 skill_Q_CooldownTimer = 0f;
             }
-            qSkillCooldownUI.cooldownOverlay.fillAmount = skill_Q_CooldownTimer / skill_Q_CooldownTime; // Q 스킬 쿨타임 UI 업데이트
+            //qSkillCooldownUI.cooldownOverlay.fillAmount = skill_Q_CooldownTimer / skill_Q_CooldownTime; // Q 스킬 쿨타임 UI 업데이트
         }
 
         if (set_Skill_W_Cooldown)
@@ -131,7 +136,7 @@ public class SkillManager : MonoBehaviour
                 set_Skill_W_Cooldown = false;
                 skill_W_CooldownTimer = 0f;
             }
-            wSkillCooldownUI.cooldownOverlay.fillAmount = skill_W_CooldownTimer / skill_W_CooldownTime; // W 스킬 쿨타임 UI 업데이트
+            //wSkillCooldownUI.cooldownOverlay.fillAmount = skill_W_CooldownTimer / skill_W_CooldownTime; // W 스킬 쿨타임 UI 업데이트
         }
 
         if (set_Skill_E_Cooldown)
@@ -142,7 +147,7 @@ public class SkillManager : MonoBehaviour
                 set_Skill_E_Cooldown = false;
                 skill_E_CooldownTimer = 0f;
             }
-            eSkillCooldownUI.cooldownOverlay.fillAmount = skill_E_CooldownTimer / skill_E_CooldownTime; // E 스킬 쿨타임 UI 업데이트
+            //eSkillCooldownUI.cooldownOverlay.fillAmount = skill_E_CooldownTimer / skill_E_CooldownTime; // E 스킬 쿨타임 UI 업데이트
         }
 
         if (set_Skill_R_Cooldown)
@@ -153,7 +158,7 @@ public class SkillManager : MonoBehaviour
                 set_Skill_R_Cooldown = false;
                 skill_R_CooldownTimer = 0f;
             }
-            rSkillCooldownUI.cooldownOverlay.fillAmount = skill_R_CooldownTimer / skill_R_CooldownTime; // R 스킬 쿨타임 UI 업데이트
+            //rSkillCooldownUI.cooldownOverlay.fillAmount = skill_R_CooldownTimer / skill_R_CooldownTime; // R 스킬 쿨타임 UI 업데이트
         }
     }
 
@@ -169,7 +174,6 @@ public class SkillManager : MonoBehaviour
         {
             AwakeBattleModeSkill();
         }
-
     }
 
 
@@ -180,7 +184,7 @@ public class SkillManager : MonoBehaviour
             StartCoroutine(OnDarknessShoot());
             set_Skill_Q_Cooldown = true;
             skill_Q_CooldownTimer = skill_Q_CooldownTime;
-            qSkillCooldownUI.StartCooldown(); // Q 스킬
+            //qSkillCooldownUI.StartCooldown(); // Q 스킬
         }
 
         if (Input.GetKeyDown(KeyCode.W) && !set_Skill_W_Cooldown)
@@ -198,6 +202,13 @@ public class SkillManager : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.R) && !set_Skill_R_Cooldown)
+        {
+            StartCoroutine(Chain_Shoot());
+            set_Skill_R_Cooldown = true;
+            skill_R_CooldownTimer = skill_R_CooldownTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F) && !set_Skill_R_Cooldown)
         {
             StartCoroutine(OnBattlModeChange());
             set_Skill_R_Cooldown = true;
@@ -223,8 +234,6 @@ public class SkillManager : MonoBehaviour
         yield return null;
         playerMove.enabled = true;
     }
-
-    
 
     IEnumerator OnSitShoot()//스킬 W
     {
@@ -282,7 +291,20 @@ public class SkillManager : MonoBehaviour
         playerMove.enabled = true;
     }
 
-    IEnumerator OnBattlModeChange()//스킬 R
+    IEnumerator Chain_Shoot()//스킬 R
+    {
+        playerMove.enabled = false;
+        gun.SetActive(true);
+        animator.SetTrigger("isChainShoot");
+        yield return new WaitForSeconds(0.5f);
+        skill_R_New_Effect_First.Play();
+        yield return new WaitForSeconds(1.4f);
+        gun.SetActive(false);
+        playerMove.enabled = true;
+    }
+
+
+    IEnumerator OnBattlModeChange()
     {
         battleModeSound.clip = katanaSoundChanger.battleMode_Change;
         Skill_R_Voice.Play();
@@ -304,7 +326,6 @@ public class SkillManager : MonoBehaviour
         battle_Mode_Weapon_Start.SetActive(true);
         battle_Mode_Weapon_Saya.SetActive(true);
        
-
         yield return null;
         SetbattleMode = true;
         playerMove.enabled = true;
@@ -338,7 +359,14 @@ public class SkillManager : MonoBehaviour
         {
             StartCoroutine(KatanaAwakeAttack());
         }
+
+        //스킬 F 각성해제(임시)
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            StartCoroutine(AwakClose());
+        }
     }
+
     #region AwakeMode
     IEnumerator KatanaPowerAttack()// 각성 Q스킬
     {
@@ -371,7 +399,6 @@ public class SkillManager : MonoBehaviour
         battle_Mode_Weapon_Attack.SetActive(false);
     }
 
-
     IEnumerator KatanaDash()// 각성 E스킬
     {
         battleModeSound.clip = katanaSoundChanger.battleMode_skill_E;
@@ -389,7 +416,6 @@ public class SkillManager : MonoBehaviour
         battle_Mode_Weapon_Start.SetActive(true);
         battle_Mode_Weapon_Attack.SetActive(false);
     }
-
 
     IEnumerator KatanaAwakeAttack()// 각성 R스킬(각성기)
     {
@@ -410,6 +436,35 @@ public class SkillManager : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         battle_Mode_Weapon_Start.SetActive(true);
         battle_Mode_Weapon_Attack.SetActive(false);
+    }
+
+
+    IEnumerator AwakClose()// 각성 해제
+    {
+        //battleModeSound.clip = katanaSoundChanger.battleMode_Change;
+        
+        playerMove.enabled = false;
+        animator.SetTrigger("isModeEnd");
+        yield return new WaitForSeconds(1.0f);
+        battle_Mode_Change_Effect_First.Stop();
+        //battle_Mode_Trigger.gameObject.SetActive(false);
+        rifle.gameObject.SetActive(true);
+        katana_Sub.gameObject.SetActive(true);
+        
+        //battleModeSound.PlayOneShot(battleModeSound.clip);
+        //battle_Mode_Change_Effect_First.Play();
+        //battle_Mode_Change_Effect_Scound.Play();
+        yield return new WaitForSeconds(2.0f);
+
+        //battle_Mode_Trigger.gameObject.SetActive(true);
+        battle_Mode_Animator.runtimeAnimatorController = base_Mode;
+
+        battle_Mode_Weapon_Start.SetActive(false);
+        battle_Mode_Weapon_Saya.SetActive(false);
+
+        yield return null;
+        SetbattleMode = false;
+        playerMove.enabled = true;
     }
     #endregion
 }

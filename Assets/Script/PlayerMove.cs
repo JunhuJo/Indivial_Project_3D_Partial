@@ -25,8 +25,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float shootpoint = 5.0f;
     [SerializeField] private GameObject shoot_Effect;
     [SerializeField] private Transform shoot_Effect_Pos;
-    private bool baseAttack = false;    
-
+    private bool baseAttack = false;
+    private SkillManager skillManager;
+    
 
     [Header("ShootSound")]
     [SerializeField] private AudioSource AudioSource;
@@ -38,12 +39,14 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         shootsound = AudioSource.clip;
+        skillManager = GetComponent<SkillManager>();
     }
 
     private void Update()
     {
         PlayerMoveOnUpdate();
     }
+
 
     private void PlayerMoveOnUpdate()
     {
@@ -81,9 +84,13 @@ public class PlayerMove : MonoBehaviour
         //기본 공격
         if (Input.GetMouseButtonDown(1))
         {
-            if (!baseAttack)
+            if (!baseAttack && !skillManager.SetbattleMode)
             {
                 StartCoroutine(CommandAtk());
+            }
+            else if(skillManager.SetbattleMode)
+            {
+                StartCoroutine(AwakeBaseAttack());
             }
         }
 
@@ -114,5 +121,15 @@ public class PlayerMove : MonoBehaviour
         Animator_Player.SetBool("isRunAttack", false);
         Animator_Player.SetBool("isAttack", false);
         baseAttack = false;
+    }
+
+    IEnumerator AwakeBaseAttack()
+    {
+        Animator_Player.SetTrigger("isBaseAttack");
+        skillManager.battle_Mode_Weapon_Start.SetActive(false);
+        skillManager.battle_Mode_Weapon_Attack.SetActive(true);
+        yield return new WaitForSeconds(3.0f);
+        skillManager.battle_Mode_Weapon_Start.SetActive(true);
+        skillManager.battle_Mode_Weapon_Attack.SetActive(false);
     }
 }
