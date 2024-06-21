@@ -63,11 +63,11 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private ParticleSystem skill_R2_Effect;
     
 
-    private Vector3 moveDirection;
-    private bool isDashing = false;
-    private float dashTimeLeft;
-    private float lastDashTime = -100f;
-    private CharacterController controller;
+    //private Vector3 moveDirection;
+    //private bool isDashing = false;
+    //private float dashTimeLeft;
+    //private float lastDashTime = -100f;
+    //private CharacterController controller;
 
 
     [Header("Common")]
@@ -118,7 +118,7 @@ public class SkillManager : MonoBehaviour
         sword_Attack_SoundClip = sword_Attack_Sound.clip;
        
         battle_Mode_Animator = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
+        //controller = GetComponent<CharacterController>();
         skill_Voice = GetComponent<AudioSource>();
     }
 
