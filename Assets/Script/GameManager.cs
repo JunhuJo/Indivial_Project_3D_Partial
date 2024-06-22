@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,9 +32,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    [Header("Audio")]
     [SerializeField] private AudioMixer audioMixer;
-
+    [SerializeField] private const float sfxVolumeOffset = 15.0f;
 
 
     private void Awake()
@@ -73,7 +74,20 @@ public class GameManager : MonoBehaviour
     {
         // volume이 0일 때를 대비하여 최소 값을 설정
         if (volume <= 0.0001f) volume = 0.0001f;
-        audioMixer.SetFloat("EffectSound", Mathf.Log10(volume) * 20);
+        audioMixer.SetFloat("EffectSound", Mathf.Log10(volume) * 20 + sfxVolumeOffset);
     }
 
+    public float GetBGMVolume()
+    {
+        float value;
+        audioMixer.GetFloat("BGM", out value);
+        return value;
+    }
+
+    public float GetSFXVolume()
+    {
+        float value;
+        audioMixer.GetFloat("EffectSound", out value);
+        return value - sfxVolumeOffset;
+    }
 }
