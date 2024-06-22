@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEditor.Purchasing;
 
 public class IntroSceneManager : MonoBehaviour
 {
@@ -58,7 +59,7 @@ public class IntroSceneManager : MonoBehaviour
         BGM.onValueChanged.AddListener(delegate { OnBGMVolumeChanged(); });
         effect_Sound.onValueChanged.AddListener(delegate { OnSFXVolumeChanged(); });
 
-        
+
     }
 
     private void Update()
@@ -143,7 +144,7 @@ public class IntroSceneManager : MonoBehaviour
             if (color.a == 1)
             {
                 StartCoroutine(InLobyGo());
-                //GameManager.Instance.OnClick_GameStart();
+                
             }
         }
 
@@ -174,6 +175,11 @@ public class IntroSceneManager : MonoBehaviour
 
 
     //Now Scene
+    public void OnClick_Game_Start()
+    {
+        GameManager.Instance.OnClick_GameStart();
+    }
+
     public void OnClick_OpenOption()
     {
         OptionMenu.gameObject.SetActive(true);

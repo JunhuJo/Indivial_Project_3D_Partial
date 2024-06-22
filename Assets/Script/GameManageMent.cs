@@ -35,32 +35,65 @@ public class GameManageMent : MonoBehaviour
     [SerializeField] private AudioMixerGroup audioMixerGroup;
     [SerializeField] private bool gamePlayeScene = false;
 
+    [Header("Menu")]
+    [SerializeField] private GameObject escMenu;
+    [SerializeField] private Slider BGM;
+    [SerializeField] private Slider effect_Sound;
 
 
-    
+
 
     private void Start()
     {
+        escMenu.gameObject.SetActive(false);
+
+        //GameManager.Instance.SetBGMVolume(GameManager.Instance.GetBGMVolume());
+        //GameManager.Instance.SetSFXVolume(GameManager.Instance.GetSFXVolume());
+
         ChangeCursor(customCursorTexture, hotSpot);
         GameObject Player = Instantiate(Player_Prefap);
         virtual_Camera.Follow = Player.transform;
         miniMap.player = Player.transform;
         player_Info = Player.GetComponent<PlayerInfo>();
-
     }
 
     private void Update()
     {
+        EscMeunOpen();
+        OnBGMVolumeChanged();
+        OnSFXVolumeChanged();
+
         if (gamePlayeScene)
         {
             PlayerInfoUpdate();
-            //StartCoroutine(SetPlayer());
-            if (Input.GetKeyDown(KeyCode.Escape))
+        }
+    }
+
+    public void OnBGMVolumeChanged()
+    {
+        GameManager.Instance.SetBGMVolume(BGM.value);
+    }
+
+    public void OnSFXVolumeChanged()
+    {
+        GameManager.Instance.SetSFXVolume(effect_Sound.value);
+    }
+
+
+    private void EscMeunOpen()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!escMenu.activeSelf)
             {
-                Debug.Log("메뉴창 오픈하기");
+                escMenu.gameObject.SetActive(true);
+            }
+
+            if (escMenu.activeSelf)
+            {
+                escMenu.gameObject.SetActive(false);
             }
         }
-        
     }
 
     private void PlayerInfoUpdate()
