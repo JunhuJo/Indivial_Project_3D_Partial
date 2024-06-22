@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private const float sfxVolumeOffset = 15.0f;
+    [SerializeField] private const float sfxVolumeOffset = 10.0f;
 
 
     private void Awake()
