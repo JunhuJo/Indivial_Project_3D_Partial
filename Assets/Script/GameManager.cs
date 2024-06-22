@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
 
-    // 인스턴스에 접근하기 위한 프로퍼티
+    
     public static GameManager Instance
     {
         get
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
                     instance = singletonObject.AddComponent<GameManager>();
                     singletonObject.name = typeof(GameManager).ToString() + " (Singleton)";
 
-                    // 싱글톤 오브젝트가 다른 씬에서도 유지되도록 설정
+                    
                     DontDestroyOnLoad(singletonObject);
                 }
             }
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // 이미 인스턴스가 존재하는 경우, 중복되는 오브젝트를 파괴
+        
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -50,8 +50,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        SetBGMVolume(1.0f); // 초기 볼륨 값 설정 (1.0은 최대 볼륨)
-        SetSFXVolume(1.0f); // 초기 볼륨 값 설정 (1.0은 최대 볼륨)
+        SetBGMVolume(1.0f); 
+        SetSFXVolume(1.0f); 
     }
 
 
@@ -86,5 +86,23 @@ public class GameManager : MonoBehaviour
         float value;
         audioMixer.GetFloat("EffectSound", out value);
         return value - sfxVolumeOffset;
+    }
+
+    public void OnClick_SetSize_First()
+    {
+        
+        Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
+    }
+
+    public void OnClick_SetSize_Scound()
+    {
+        
+        Screen.SetResolution(1280, 720, FullScreenMode.Windowed);
+    }
+
+    public void OnClick_SetSize_Tread()
+    {
+        
+        Screen.SetResolution(800, 600, FullScreenMode.Windowed);
     }
 }
