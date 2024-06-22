@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -30,6 +31,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    [SerializeField] private AudioMixer audioMixer;
+
+
+
     private void Awake()
     {
         // 이미 인스턴스가 존재하는 경우, 중복되는 오브젝트를 파괴
@@ -44,10 +50,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        SetBGMVolume(1.0f); // 초기 볼륨 값 설정 (1.0은 최대 볼륨)
+        SetSFXVolume(1.0f); // 초기 볼륨 값 설정 (1.0은 최대 볼륨)
+    }
+
 
     public void OnClick_GameStart()
     {
         SceneManager.LoadScene("Main_Play");
+    }
+
+    public void SetBGMVolume(float volume)
+    {
+        // volume이 0일 때를 대비하여 최소 값을 설정
+        if (volume <= 0.0001f) volume = 0.0001f;
+        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        // volume이 0일 때를 대비하여 최소 값을 설정
+        if (volume <= 0.0001f) volume = 0.0001f;
+        audioMixer.SetFloat("EffectSound", Mathf.Log10(volume) * 20);
     }
 
 }

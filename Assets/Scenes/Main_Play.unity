@@ -1108,7 +1108,7 @@ MonoBehaviour:
   playerAp_Text: {fileID: 740328602}
   playerDp_Text: {fileID: 362953823}
   miniMap: {fileID: 1741050672}
-  audioMixerGroup: {fileID: 24300002, guid: 587aedb20bbaf494eb496195f38a8ab6, type: 2}
+  audioMixerGroup: {fileID: -2260298086451351601, guid: a2cdcc0fe5755a6449934ce02b4d7e63, type: 2}
   gamePlayeScene: 0
 --- !u!1001 &177520004
 PrefabInstance:
@@ -5295,10 +5295,10 @@ AudioSource:
   m_GameObject: {fileID: 1161539303}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: 587aedb20bbaf494eb496195f38a8ab6, type: 2}
+  OutputAudioMixerGroup: {fileID: 6357251756049563401, guid: a2cdcc0fe5755a6449934ce02b4d7e63, type: 2}
   m_audioClip: {fileID: 8300000, guid: f7d2a702257433643ba3adc3a457d6bb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6150,50 +6150,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267809688}
   m_CullTransparentMesh: 1
---- !u!1 &1279437128
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1279437129}
-  - component: {fileID: 1279437130}
-  m_Layer: 0
-  m_Name: Game_Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1279437129
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279437128}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 549.78296, y: 127.00658, z: 551.22687}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1279437130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279437128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a037c0ac7d55abc42b836c6a232e462e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1286929777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5195319786550408991, guid: 9d6fdd0421363ed469358421961f92f0, type: 3}
@@ -8556,7 +8512,7 @@ MonoBehaviour:
     IsHidden: 0
   - Type: 0
     Name: 
-    GameObject: {fileID: 1279437128}
+    GameObject: {fileID: 0}
     Ordinal: 9
     Priority: 0
     IconType: 109000
