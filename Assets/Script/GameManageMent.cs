@@ -88,12 +88,4 @@ public class GameManageMent : MonoBehaviour
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
-    
-
-   //IEnumerator SetPlayer()
-   //{
-   //        yield return new WaitForSeconds(5);
-   //        
-   //        gamePlayeScene = false; 
-   //}
 }

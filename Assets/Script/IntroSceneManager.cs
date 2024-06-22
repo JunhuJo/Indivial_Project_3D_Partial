@@ -11,20 +11,31 @@ public class IntroSceneManager : MonoBehaviour
 
     [Header("Option")]
     [SerializeField] private Button startButton;
+    [SerializeField] private Button loby_Exit_Btn;
     [SerializeField] private GameObject OptionMenu;
 
     [Header("BGM_Effect_Sound")]
-    
+
     [SerializeField] private Slider BGM;
     [SerializeField] private Slider effect_Sound;
     [SerializeField] private Text bgmVolumeText; // BGM 볼륨 텍스트
     [SerializeField] private Text effectSoundVolumeText; // 효과음 볼륨 텍스트
-    
+
+    [Header("Loby_Exit")]
+    [SerializeField] private GameObject exit_UI;
+    [SerializeField] private GameObject ui_Wall;
+    [SerializeField] private float upSpeed = 300;
+    [SerializeField] private float stopTime = 1.0f;
+    private bool exit = false;
+    private bool exit_down = false;
+
+
 
     private void Start()
     {
-       
+
         startButton.onClick.AddListener(OnStartButtonClicked);
+        loby_Exit_Btn.onClick.AddListener(OnClick_Loby_Exit);
 
         // 슬라이더 초기값 설정 및 이벤트 리스너 추가
         BGM.value = Mathf.Pow(10, GameManager.Instance.GetBGMVolume() / 20);
@@ -38,6 +49,8 @@ public class IntroSceneManager : MonoBehaviour
     {
         UpdateBGMVolumeText(BGM.value);
         UpdateSFXVolumeText(effect_Sound.value);
+        StartCoroutine(UpExit());
+
     }
 
     //Game Manger
@@ -69,10 +82,11 @@ public class IntroSceneManager : MonoBehaviour
             start_Game_Set.color = color;
             if (color.a == 1)
             {
-                GameManager.Instance.OnClick_GameStart();
+
+                //GameManager.Instance.OnClick_GameStart();
             }
         }
-        
+
     }
 
     public void OnBGMVolumeChanged()
@@ -100,8 +114,38 @@ public class IntroSceneManager : MonoBehaviour
     }
 
     public void OnClick_Exit()
-    { 
+    {
         Application.Quit();
+    }
+
+    public void OnClick_Loby_Exit()
+    {
+        exit = true;
+    }
+
+    public void OnClick_Loby_Exit_Down()
+    {
+        exit_down = true;
+    }
+
+
+    IEnumerator UpExit()
+    {
+        if (exit)
+        {
+           exit_UI.transform.Translate(Vector2.up * upSpeed * Time.deltaTime);
+           ui_Wall.gameObject.SetActive(true);
+           yield return new WaitForSeconds(stopTime);
+           exit = false;
+        }
+
+        if (exit_down)
+        {
+            exit_UI.transform.Translate(Vector2.down * upSpeed * Time.deltaTime);
+            yield return new WaitForSeconds(stopTime);
+            ui_Wall.gameObject.SetActive(false);
+            exit_down = false;
+        }
     }
 
     private void UpdateBGMVolumeText(float value)
