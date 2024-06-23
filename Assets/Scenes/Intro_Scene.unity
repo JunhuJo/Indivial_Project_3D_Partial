@@ -1168,7 +1168,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 6357251756049563401, guid: a2cdcc0fe5755a6449934ce02b4d7e63, type: 2}
   m_audioClip: {fileID: 8300000, guid: 973674388cda0cf42b413ee1b11d984d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1361,6 +1361,8 @@ MonoBehaviour:
   start_Fade: {fileID: 715634714}
   start_Load: {fileID: 4772751231644195527}
   loby: {fileID: 227874425666811750}
+  customCursorTexture: {fileID: 2800000, guid: 44a99ee545fd8ba46a452b12c1f9378b, type: 3}
+  hotSpot: {x: 0, y: 0}
   start_Game_Set: {fileID: 715634716}
   fadeInDuration: 1
   startButton: {fileID: 4772751231391495798}
@@ -1374,7 +1376,7 @@ MonoBehaviour:
   exit_UI: {fileID: 227874425666811305}
   ui_Wall: {fileID: 1842411924}
   upSpeed: 1000
-  stopTime: 0.3
+  stopTime: 0.8
   story_Mode_UI: {fileID: 227874425666811125}
 --- !u!4 &1435703164
 Transform:
@@ -13834,7 +13836,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 227874425666812806}
   m_HandleRect: {fileID: 227874425666813791}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

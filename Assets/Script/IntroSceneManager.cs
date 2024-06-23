@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEditor.Purchasing;
 
 public class IntroSceneManager : MonoBehaviour
 {
@@ -13,6 +12,8 @@ public class IntroSceneManager : MonoBehaviour
 
 
     [Header("IntroSet")]
+    [SerializeField] private Texture2D customCursorTexture;
+    [SerializeField] private Vector2 hotSpot = Vector2.zero;
     [SerializeField] private Image start_Game_Set;
     public float fadeInDuration = 1.0f; // 페이드 인 시간
     private bool gameStart = false;
@@ -46,6 +47,7 @@ public class IntroSceneManager : MonoBehaviour
 
     private void Start()
     {
+        ChangeCursor(customCursorTexture, hotSpot);
         SetStart_Size();
 
         startButton.onClick.AddListener(OnStartButtonClicked);
@@ -281,5 +283,17 @@ public class IntroSceneManager : MonoBehaviour
     {
         int volumePercent = Mathf.RoundToInt(value * 100);
         effectSoundVolumeText.text = volumePercent + "%";
+    }
+
+
+    private void ChangeCursor(Texture2D cursorTexture, Vector2 hotSpot)
+    {
+        Cursor.SetCursor(cursorTexture, hotSpot, CursorMode.Auto);
+    }
+
+    private void OnDisable()
+    {
+       
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 }

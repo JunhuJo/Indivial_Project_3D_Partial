@@ -37,8 +37,8 @@ public class GameManageMent : MonoBehaviour
 
     [Header("Menu")]
     [SerializeField] private GameObject escMenu;
-    [SerializeField] private Slider BGM;
-    [SerializeField] private Slider effect_Sound;
+    //[SerializeField] private Slider BGM;
+    //[SerializeField] private Slider effect_Sound;
 
 
 
@@ -60,8 +60,8 @@ public class GameManageMent : MonoBehaviour
     private void Update()
     {
         EscMeunOpen();
-        OnBGMVolumeChanged();
-        OnSFXVolumeChanged();
+        //OnBGMVolumeChanged();
+        //OnSFXVolumeChanged();
 
         if (gamePlayeScene)
         {
@@ -69,15 +69,15 @@ public class GameManageMent : MonoBehaviour
         }
     }
 
-    public void OnBGMVolumeChanged()
-    {
-        GameManager.Instance.SetBGMVolume(BGM.value);
-    }
-
-    public void OnSFXVolumeChanged()
-    {
-        GameManager.Instance.SetSFXVolume(effect_Sound.value);
-    }
+    //public void OnBGMVolumeChanged()
+    //{
+    //    GameManager.Instance.SetBGMVolume(BGM.value);
+    //}
+    //
+    //public void OnSFXVolumeChanged()
+    //{
+    //    GameManager.Instance.SetSFXVolume(effect_Sound.value);
+    //}
 
 
     private void EscMeunOpen()
