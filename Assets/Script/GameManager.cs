@@ -1,12 +1,21 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
 
+    [Header("Audio")]
+    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private const float sfxVolumeOffset = 10.0f;
+
+    public GameObject loadingScreen;
     
+
+
     public static GameManager Instance
     {
         get
@@ -29,11 +38,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [Header("Audio")]
-    [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private const float sfxVolumeOffset = 10.0f;
-
-
     private void Awake()
     {
         
@@ -52,6 +56,40 @@ public class GameManager : MonoBehaviour
     {
         SetBGMVolume(1.0f); 
         SetSFXVolume(1.0f); 
+    }
+
+
+    public void LoadScene(string sceneName)
+    {
+        StartCoroutine(LoadSceneAsync(sceneName));
+    }
+
+    IEnumerator LoadSceneAsync(string sceneName)
+    {
+        // 로딩 화면 활성화
+        loadingScreen.SetActive(true);
+
+        // 씬 로드 시작
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        operation.allowSceneActivation = false;
+
+        // 로딩이 완료될 때까지 대기
+        while (!operation.isDone)
+        {
+            // 로딩이 완료되면 씬 전환
+            if (operation.progress >= 0.9f)
+            {
+                if (Input.anyKeyDown)
+                {
+                    operation.allowSceneActivation = true;
+                }
+            }
+
+            yield return null;
+        }
+
+        // 로딩 화면 비활성화
+        loadingScreen.SetActive(false);
     }
 
 
