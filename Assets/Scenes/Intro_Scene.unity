@@ -2588,8 +2588,8 @@ MonoBehaviour:
   effectSoundVolumeText: {fileID: 4772751231968475016}
   exit_UI: {fileID: 227874425666811305}
   ui_Wall: {fileID: 1842411924}
-  upSpeed: 700
-  stopTime: 0.4
+  upSpeed: 1000
+  stopTime: 0.5
   story_Mode_UI: {fileID: 227874425666811125}
 --- !u!4 &1435703164
 Transform:

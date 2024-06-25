@@ -19,7 +19,7 @@ namespace MuryotaisuDoor
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKey("z"))
+            if (Input.GetKey(KeyCode.T))
             {
                 animator.SetBool("doorOpenFlag", true);
             } else {
