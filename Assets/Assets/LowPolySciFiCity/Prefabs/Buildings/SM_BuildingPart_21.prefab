@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6130795916048367894}
   - component: {fileID: 7114330555788136115}
   - component: {fileID: 4998954610554403449}
-  - component: {fileID: 7114330555788136112}
+  - component: {fileID: -1233631149988205638}
   m_Layer: 0
   m_Name: SM_BuildingPart_21
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7114330555788136112
+--- !u!65 &-1233631149988205638
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,5 +95,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 3.3000002, z: 0.6024698}
-  m_Center: {x: 0, y: 1.6500001, z: -0.013670087}
+  m_Size: {x: 5, y: 3.3, z: 0.27207094}
+  m_Center: {x: 0, y: 1.65, z: 0.011035472}
