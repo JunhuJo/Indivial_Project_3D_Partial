@@ -10,6 +10,8 @@ namespace MuryotaisuDoor
 
         private bool InDoor;
 
+        private bool gateOpen = false;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -19,10 +21,31 @@ namespace MuryotaisuDoor
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKey(KeyCode.T))
+            GateOpenKey();
+        }
+
+        void GateOpenKey()
+        {
+            if (Input.GetKeyDown(KeyCode.T) && !gateOpen)
+            {
+                gateOpen = true;
+            }
+            else if(Input.GetKeyDown(KeyCode.T) && gateOpen)
+            {
+                gateOpen =false;
+            }
+
+            GateOpen();
+        }
+
+        void GateOpen()
+        {
+            if (gateOpen)
             {
                 animator.SetBool("doorOpenFlag", true);
-            } else {
+            }
+            else if (!gateOpen)
+            {
                 animator.SetBool("doorOpenFlag", false);
             }
 
@@ -31,6 +54,7 @@ namespace MuryotaisuDoor
                 GetComponent<Renderer>().material.color = Color.red;
                 animator.SetBool("doorOpenFlag", true);
             }
+
         }
 
         void OnTriggerStay(Collider other)

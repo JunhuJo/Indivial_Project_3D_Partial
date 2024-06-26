@@ -3,14 +3,14 @@ using UnityEngine.AI;
 
 public class MonsterAI : MonoBehaviour
 {
-    [SerializeField] private int monsterType;// 몬스터 타입별로 근,원거리 공격하게 함
-    [SerializeField] private Transform[] waypoints; 
-    public Transform target;
+    [SerializeField] private int monsterType;
+    [SerializeField] private Transform[] waypoints;
+    [SerializeField] private Transform target;
     [SerializeField] private float targetDetectionRange = 10f;
-    public float stoppingDistance = 1.5f; // 타겟에 근접하는 거리
-    public float stoppingLongDistance = 5.0f; // 타겟에 근접하는 거리
+    [SerializeField] private float stoppingDistance = 1.5f; 
+    [SerializeField] private float stoppingLongDistance = 5.0f; 
+    
     private Animator monsterAnimator;
-
     private NavMeshAgent agent;
     private int currentWaypointIndex = 0;
 
@@ -37,6 +37,7 @@ public class MonsterAI : MonoBehaviour
             Vector3 targetPosition = target.position - directionToTarget * stoppingDistance;
             Vector3 targetLongDistancePosition = target.position - directionToTarget * stoppingLongDistance;
             agent.SetDestination(targetPosition);
+
             if (gameObject.transform.position == targetPosition && monsterType == 1)
             {
                 monsterAnimator.SetTrigger("isMonsterAttack");
@@ -71,6 +72,4 @@ public class MonsterAI : MonoBehaviour
         agent.SetDestination(waypoints[currentWaypointIndex].position);
         currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
     }
-
-    
 }
