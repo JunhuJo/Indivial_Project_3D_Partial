@@ -221,11 +221,16 @@ public class SkillManager : MonoBehaviour
             skill_R_CooldownTimer = skill_R_CooldownTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && !set_Skill_R_Cooldown)
+        if (Input.GetKeyDown(KeyCode.G) && !set_Skill_R_Cooldown)
         {
             StartCoroutine(OnBattlModeChange());
             set_Skill_R_Cooldown = true;
             skill_R_CooldownTimer = skill_R_CooldownTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            transform.position = new Vector3(-13.042224884033204f, -2.2649998664855959f, 129.14707946777345f);
         }
     }
 

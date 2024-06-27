@@ -186,6 +186,6 @@ Material:
     - _NoiseDistortionSpeed: {r: 0, g: 0.2, b: 0, a: 0}
     - _RimColor: {r: 0, g: 1, b: 0.8758622, a: 0}
     - _SphereCenter: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _TintColor: {r: 0.7830189, g: 0.7541042, b: 0.2770114, a: 1}
+    - _TintColor: {r: 0, g: 0, b: 0, a: 1}
     - _Vector0: {r: 0, g: 0.2, b: 0, a: 0}
   m_BuildTextureStacks: []

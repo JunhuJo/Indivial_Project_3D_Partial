@@ -57,12 +57,18 @@ public class BossSkill : MonoBehaviour
         lineRenderer.SetPosition(1, endPos);
 
         // 일정 시간 후 선 숨기기
-        Invoke("HideSkillDirection", showDuration);
+        //Invoke("HideSkillDirection", showDuration);
     }
 
     void HideSkillDirection()
     {
         lineRenderer.enabled = false;
         isShowingLine = false;
+    }
+
+    // 이 메서드를 스킬 사용 전에 호출
+    public void PrepareSkill()
+    {
+        ShowSkillDirection();
     }
 }
