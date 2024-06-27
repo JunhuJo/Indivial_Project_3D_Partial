@@ -726,7 +726,6 @@ GameObject:
   - component: {fileID: 4154630270245676}
   - component: {fileID: 54303884529518176}
   - component: {fileID: 136311951662653218}
-  - component: {fileID: 114541091950244488}
   m_Layer: 8
   m_Name: AcquireChan_Control
   m_TagString: Untagged
@@ -780,23 +779,6 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &114541091950244488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1398682708298560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f43e2be0fe0b4e144b3718f62ba32684, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_WalkSpeed: 2
-  m_RunSpeed: 8
-  m_RotateSpeed: 8
-  m_JumpForce: 200
-  m_RunningStart: 1.5
 --- !u!1 &1445227750919680
 GameObject:
   m_ObjectHideFlags: 0
