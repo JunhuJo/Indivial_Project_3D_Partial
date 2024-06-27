@@ -1,36 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class BossAI : MonoBehaviour
 {
-    [SerializeField] private int monsterType; // 몬스터 타입별로 근, 원거리 공격하게 함
-    //[SerializeField] private Transform[] waypoints;
+    public enum BossState
+    {
+        Idle,
+        Chasing,
+        Attacking,
+        UsingSkill
+    }
+
     [SerializeField] private float targetDetectionRange = 10f;
     [SerializeField] private float stoppingDistance = 1.5f; // 타겟에 근접하는 거리
     private Animator bossAnimator;
     private NavMeshAgent agent;
-    private int currentWaypointIndex = 0;
     private Transform target;
     private BossSkill bossSkill;
+    private BossState currentState;
 
     void Start()
     {
         bossSkill = GetComponent<BossSkill>();
         bossAnimator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        //MoveToNextWaypoint();
+        currentState = BossState.Idle;
+
     }
 
     void Update()
     {
+       
         FindTarget();
         MonsterAi();
+       
     }
 
     private void FindTarget()
     {
+        if (currentState == BossState.Attacking || currentState == BossState.UsingSkill)
+            return;
+
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         float closestDistance = targetDetectionRange;
 
@@ -52,6 +62,9 @@ public class BossAI : MonoBehaviour
 
     private void MonsterAi()
     {
+        if (currentState == BossState.Attacking || currentState == BossState.UsingSkill)
+            return;
+
         if (target != null)
         {
             float distanceToTarget = Vector3.Distance(transform.position, target.position);
@@ -73,30 +86,40 @@ public class BossAI : MonoBehaviour
                     bossAnimator.SetBool("isBossRun", false);
                 }
 
-                if (distanceToTarget <= stoppingDistance + 0.5f)
+                if (distanceToTarget <= stoppingDistance + 0.8f)
                 {
+                    agent.velocity = Vector3.zero;
                     bossAnimator.SetTrigger("isBossAttack");
+                    currentState = BossState.Attacking;
                 }
             }
         }
-        //else
-        //{
-        //    // Waypoint에 도착했는지 확인
-        //    if (!agent.pathPending && agent.remainingDistance < 0.5f)
-        //    {
-        //        MoveToNextWaypoint();
-        //    }
-        //}
+        else
+        {
+            bossAnimator.SetBool("isBossRun", false);
+        }
     }
 
-    //void MoveToNextWaypoint()
-    //{
-    //    if (waypoints.Length == 0)
-    //    {
-    //        return;
-    //    }
-    //
-    //    agent.SetDestination(waypoints[currentWaypointIndex].position);
-    //    currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-    //}
+    public void OnAttackComplete()
+    {
+        Debug.Log("Attack complete!");
+        currentState = BossState.Chasing;
+        bossAnimator.ResetTrigger("isBossAttack");
+    }
+
+    public void OnSkillComplete()
+    {
+        Debug.Log("Skill complete!");
+        currentState = BossState.Chasing;
+    }
+
+    public void UseSkill()
+    {
+        if (currentState != BossState.Attacking)
+        {
+            currentState = BossState.UsingSkill;
+            bossSkill.PrepareSkill();
+            // 스킬 사용 애니메이션 및 로직
+        }
+    }
 }
