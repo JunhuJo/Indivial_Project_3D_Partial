@@ -16,6 +16,7 @@ public class GameManageMent : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera virtual_Camera;
     [SerializeField] private GameObject Player_Prefap;
     [SerializeField] private PlayerInfo player_Info;
+    [SerializeField] private SkillManager player_Skill_Manager;
     [SerializeField] private Slider player_Hp;
     [SerializeField] private Slider player_Ep;
 
@@ -27,6 +28,11 @@ public class GameManageMent : MonoBehaviour
     [SerializeField] private Text playerAp_Text;
     [SerializeField] private Text playerDp_Text;
 
+    [SerializeField] private Text skill_Coll_Q;
+    [SerializeField] private Text skill_Coll_W;
+    [SerializeField] private Text skill_Coll_E;
+    [SerializeField] private Text skill_Coll_R;
+
 
     [Header("MiniMap")]
     [SerializeField] private MinMapFlow miniMap;
@@ -37,10 +43,6 @@ public class GameManageMent : MonoBehaviour
 
     [Header("Menu")]
     [SerializeField] private GameObject escMenu;
-    //[SerializeField] private Slider BGM;
-    //[SerializeField] private Slider effect_Sound;
-
-
 
 
     private void Start()
@@ -55,6 +57,7 @@ public class GameManageMent : MonoBehaviour
         virtual_Camera.Follow = Player.transform;
         miniMap.player = Player.transform;
         player_Info = Player.GetComponent<PlayerInfo>();
+        player_Skill_Manager = Player.GetComponent<SkillManager>();
     }
 
     private void Update()
@@ -62,11 +65,16 @@ public class GameManageMent : MonoBehaviour
         EscMeunOpen();
         //OnBGMVolumeChanged();
         //OnSFXVolumeChanged();
+        PlayerInfoUpdate();
+        SkillCoolDown();
+    }
 
-        if (gamePlayeScene)
-        {
-            PlayerInfoUpdate();
-        }
+    private void SkillCoolDown()
+    {
+        skill_Coll_Q.text = $"{player_Skill_Manager.coolDown_Q}";
+        skill_Coll_W.text = $"{player_Skill_Manager.coolDown_W}";
+        skill_Coll_E.text = $"{player_Skill_Manager.coolDown_E}";
+        skill_Coll_R.text = $"{player_Skill_Manager.coolDown_R}";
     }
 
     //public void OnBGMVolumeChanged()
@@ -107,7 +115,6 @@ public class GameManageMent : MonoBehaviour
 
         player_Hp.value = player_Info.playerNowHp / player_Info.playerMaxHp;
         player_Ep.value = player_Info.playerNowEp / player_Info.playerMaxEp;
-
     }
 
     private void ChangeCursor(Texture2D cursorTexture, Vector2 hotSpot)

@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     public GameObject loadingScreen;
     
 
-
     public static GameManager Instance
     {
         get

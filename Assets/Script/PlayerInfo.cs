@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerInfo : MonoBehaviour
 {
@@ -11,4 +10,5 @@ public class PlayerInfo : MonoBehaviour
     public float playerMaxEp = 300;
     public float playerAp = 50;
     public float playerDp = 30;
+
 }

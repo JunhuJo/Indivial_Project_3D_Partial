@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -54,18 +55,27 @@ public class PlayerMove : MonoBehaviour
 
     private void PlayerMoveOnUpdate()
     {
+
         //이동
         if (Input.GetMouseButtonDown(0))// 좌클릭 시
         {
+            // 클릭한 위치가 UI 위인지 확인
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return; // 클릭한 위치가 UI라면 반환
+            }
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 100))
             {
                 Debug.DrawLine(ray.origin, hit.point);
-                NavAgent_Player.SetDestination(hit.point); // 클릭한 위치로 이동
-                if (Input.GetKeyDown(KeyCode.Q)|| Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.E)|| Input.GetKeyDown(KeyCode.R))
-                { 
-                    hit.point = gameObject.transform.position;
+
+                if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.R))
+                {
+                    hit.point = Transform_Player.position;
                 }
+
+                NavAgent_Player.SetDestination(hit.point); // 클릭한 위치로 이동
             }
 
             GameObject pointer_Effect = Instantiate(EffectPrefab, hit.point, Quaternion.identity);
