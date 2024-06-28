@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2589,7 +2589,7 @@ MonoBehaviour:
   exit_UI: {fileID: 227874425666811305}
   ui_Wall: {fileID: 1842411924}
   upSpeed: 1000
-  stopTime: 0.5
+  stopTime: 0.8
   story_Mode_UI: {fileID: 227874425666811125}
 --- !u!4 &1435703164
 Transform:
@@ -15435,7 +15435,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 227874425666812806}
   m_HandleRect: {fileID: 227874425666813791}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -16018,7 +16018,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000048716844}
+  m_AnchoredPosition: {x: 0, y: -0.00009916366}
   m_SizeDelta: {x: 0, y: 600}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &227874425666813889

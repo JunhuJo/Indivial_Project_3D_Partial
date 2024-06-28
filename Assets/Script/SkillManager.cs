@@ -126,21 +126,33 @@ public class SkillManager : MonoBehaviour
 
     public void UseSkillTrun()
     {
+        // 캐릭터 회전
+        RotateTowardsMousePointer();
+
+        // 이동 중지 및 경로 초기화
+        player_nav.isStopped = true;
+        player_nav.ResetPath();
+
+        // 1.5초 후 이동 재개
+        Invoke("ResumeMovement", 1.5f);
+    }
+
+    private void RotateTowardsMousePointer()
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 100))
         {
-            // 캐릭터를 마우스 포인터 방향으로 회전
             Vector3 direction = (hit.point - transform.position).normalized;
-            direction.y = 0; // y축 회전 방지
-            transform.rotation = Quaternion.LookRotation(direction);
+            direction.y = 0; // 높이 차이는 무시
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 360); // 즉시 회전
         }
     }
 
-    //private void ResumeMovement()
-    //{
-    //    player_nav.isStopped = false;
-    //    player_nav.SetDestination();
-    //}
+    private void ResumeMovement()
+    {
+        player_nav.isStopped = false;
+    }
 
     private void UpdateCooldowns()
     {
@@ -212,7 +224,7 @@ public class SkillManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && !set_Skill_Q_Cooldown)
         {
             UseSkillTrun();
-
+            
             StartCoroutine(OnDarknessShoot());
             set_Skill_Q_Cooldown = true;
             skill_Q_CooldownTimer = skill_Q_CooldownTime;

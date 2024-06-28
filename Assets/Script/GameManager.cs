@@ -80,15 +80,14 @@ public class GameManager : MonoBehaviour
             {
                 if (Input.anyKeyDown)
                 {
+                    // 로딩 화면 비활성화
+                    loadingScreen.SetActive(false);
                     operation.allowSceneActivation = true;
                 }
             }
 
             yield return null;
         }
-
-        // 로딩 화면 비활성화
-        loadingScreen.SetActive(false);
     }
 
 

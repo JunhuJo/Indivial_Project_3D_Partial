@@ -50,6 +50,7 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         PlayerMoveOnUpdate();
+       
     }
 
 
@@ -82,14 +83,7 @@ public class PlayerMove : MonoBehaviour
             Destroy(pointer_Effect, 0.7f);
         }
 
-        //// 스킬 사용 시 캐릭터 회전
-        //if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.R))
-        //{
-        //    RotateTowardsMousePointer();
-        //}
-
-
-
+       
         // 이동 중인지 확인하고 애니메이션 상태를 업뎃
         if (NavAgent_Player.remainingDistance > NavAgent_Player.stoppingDistance && gameObject.transform.position != Vector3.zero)
         {
@@ -100,19 +94,7 @@ public class PlayerMove : MonoBehaviour
             Animator_Player.SetBool("isRun", false);
         }
 
-        //// 이동 중인지 확인하고 애니메이션 상태를 업데이트
-        //if (NavAgent_Player.remainingDistance > NavAgent_Player.stoppingDistance)
-        //{
-        //    Animator_Player.SetBool("isRun", true);
-        //    RotateTowardsDestination();
-        //}
-        //else
-        //{
-        //    Animator_Player.SetBool("isRun", false);
-        //}
-
-
-
+       
         //기본 공격
         if (Input.GetMouseButtonDown(1))
         {
@@ -127,41 +109,17 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    // 마우스 포인터 방향으로 회전 ///////
-    private void RotateTowardsMousePointer()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, 500))
-        {
-            Vector3 targetDirection = hit.point - transform.position;
-            targetDirection.y = 0; // 높이 차이는 무시
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _ratationSpeed * Time.deltaTime);
-        }
-    }
-
-    private void RotateTowardsDestination()
-    {
-        if (NavAgent_Player.hasPath)
-        {
-            Vector3 direction = NavAgent_Player.steeringTarget - transform.position;
-            direction.y = 0; // 높이 차이는 무시
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _ratationSpeed * Time.deltaTime);
-        }
-    }
-
-
-
     IEnumerator CommandAtk()
     {
         baseAttack = true;
         if (Animator_Player.GetBool("isRun"))
         {
+            skillManager.UseSkillTrun();
             Animator_Player.SetBool("isRunAttack", true);
         }
         else if(!Animator_Player.GetBool("isRun"))
         {
+            skillManager.UseSkillTrun();
             Animator_Player.SetBool("isAttack", true);
         }
        
