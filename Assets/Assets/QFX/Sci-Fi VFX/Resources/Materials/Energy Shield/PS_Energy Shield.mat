@@ -192,7 +192,7 @@ Material:
     - _NoiseDistortionTilling: {r: 8, g: 8, b: 0, a: 0}
     - _NoiseSpeed: {r: 0, g: 0.15, b: 0, a: 0}
     - _NoiseTilling: {r: 10, g: 10, b: 0, a: 0}
-    - _ObjectWorldPosition: {r: -111.28154, g: -1.3592721, b: 18.222244, a: 0}
+    - _ObjectWorldPosition: {r: -85.10452, g: -1.083333, b: 18.45831, a: 0}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _TintColor: {r: 0, g: 0, b: 0, a: 1}
     - _Vector0: {r: 0, g: 0, b: 0, a: 0}
